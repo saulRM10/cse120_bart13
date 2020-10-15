@@ -141,5 +141,8 @@ Projects
     Activity_Desc
 */
 create table Projects (
-
+    project_PSProject char(255) not null,
+    project_desc char(255) not null,
+    project_activity char(255) not null,
+    project_activity_desc char(255) not null
 );

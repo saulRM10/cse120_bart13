@@ -19,9 +19,11 @@ create table WorkOrder (
     WO_desc char(255) not null,
     WO_alias decimal() not null,
     WO_location char(255) not null,
-    WO_worktype char(2) not null,
-
-
+    WO_workType char(2) not null,
+    WO_assetType char(255) not null,
+    WO_status char(255) not null,
+    WO_BARTdept char(255) not null,
+    WO_work_accomp_desc char(255) not null
 );
 
 -- Connect WO and location by WO_num
@@ -31,12 +33,13 @@ WO_Loc
     WO_num
     location
     location_desc
+
 */
 
 create table WorkOrder_Loc (
-    WO_num decimal() not null,
-    l_location char(255) not null,
-    l_locDesc char(255) not null
+    WO_l_num decimal() not null,
+    WO_l_location char(255) not null,
+    WO_l_locDesc char(255) not null
 );
 
 /*
@@ -49,6 +52,15 @@ WO_Status
     labor_hours
 */
 
+create table WorkOrder_status (
+    WO_s_num decimal() not null,
+    WO_s_status char(255) not null,
+    WO_s_reportDate decimal() not null,
+    WO_s_startDate decimal() not null,
+    WO_s_finishDate decimal() not null,
+    WO_s_laborHours decimal() not null
+);
+
 /*
 WO_ProbDesc
     WONum
@@ -57,6 +69,14 @@ WO_ProbDesc
     component_desc
     part_failure_desc
 */
+
+create table WorkOrder_ProbDesc (
+    WO_pd_num decimal() not null,
+    WO_pd_codeDesc char(255) not null,
+    WO_pd_reasonDesc char(255) not null,
+    WO_pd_componentDesc char(255) not null,
+    WO_pd_partfailDesc char(255) not null
+);
 
 -- Meter Readings
 
@@ -75,6 +95,10 @@ Meter_WorkOrder
     Description
     status
 */
+
+create table Meter_WorkOrder (
+
+);
 
 -- Meter WO and Meters Connected/organized via goal group
 

@@ -1,3 +1,4 @@
+
 -- Filter completed work orders by status
 
 /*
@@ -13,6 +14,16 @@ WorkOrders
     Work_accomp_desc
 */
 
+create table WorkOrder (
+    WO_num decimal() not null,
+    WO_desc char(255) not null,
+    WO_alias decimal() not null,
+    WO_location char(255) not null,
+    WO_worktype char(2) not null,
+
+
+);
+
 -- Connect WO and location by WO_num
 
 /*
@@ -21,6 +32,12 @@ WO_Loc
     location
     location_desc
 */
+
+create table WorkOrder_Loc (
+    WO_num decimal() not null,
+    l_location char(255) not null,
+    l_locDesc char(255) not null
+);
 
 /*
 WO_Status
@@ -41,22 +58,43 @@ WO_ProbDesc
     part_failure_desc
 */
 
-create table WorkOrder (
-    -- Reference
-    /*
-    r_regionkey decimal(2,0) not null,
-    r_name char(25) not null,
-    r_comment varchar(152)
-    */
-);
+-- Meter Readings
 
--- Add create statements for all tables
+/*
+Meter_WorkOrder
+    PS_Project
+    WO_num
+    Department
+    Location
+    goal_group
+    type
+    TPID
+    goal
+    units
+    reported_date
+    Description
+    status
+*/
 
-create table MeterReading (
-    /*
-    n_nationkey decimal(3,0) not null,
-    n_name char(25) not null,
-    n_regionkey decimal(2,0) not null,
-    n_comment varchar(152)
-    */
-);
+-- Meter WO and Meters Connected/organized via goal group
+
+/*
+Meters
+    Meter_Name
+    Goal_Group
+    Meter_Reading
+    Reading_date
+    Meter_Description
+    
+*/
+
+-- Meter WO and Projects connected by PS_Project
+-- Linked via goal group
+
+/*
+Projects
+    PS_Project
+    Description
+    Activity
+    Activity_Desc
+*/

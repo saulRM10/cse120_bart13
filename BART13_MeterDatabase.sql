@@ -97,7 +97,19 @@ Meter_WorkOrder
 */
 
 create table Meter_WorkOrder (
-
+    m_WO_PSproject char(7) not null,
+    m_WO_num decimal() not null,
+    m_WO_dept char(255) not null,
+    m_WO_loc char(255) not null,
+    m_WO_goalGroup char(255) not null,
+    m_WO_type char(255) not null,
+    m_WO_tpid decimal() not null,
+    m_WO_goal char(255) not null,
+    m_WO_goal decimal() not null,
+    m_WO_units char(255) not null,
+    m_WO_reportDate char(255) not null,
+    m_WO_desc char(255) not null,
+    m_WO_status char(255) not null
 );
 
 -- Meter WO and Meters Connected/organized via goal group
@@ -112,6 +124,9 @@ Meters
     
 */
 
+create table Meters (
+    
+);
 -- Meter WO and Projects connected by PS_Project
 -- Linked via goal group
 
@@ -122,3 +137,6 @@ Projects
     Activity
     Activity_Desc
 */
+create table Projects (
+
+);

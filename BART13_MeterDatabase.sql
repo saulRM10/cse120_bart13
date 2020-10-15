@@ -1,3 +1,5 @@
+-- Filter completed work orders by status
+
 /*
 WorkOrders
     WONum
@@ -8,6 +10,7 @@ WorkOrders
     Asset_type
     Status
     BARTDept
+    Work_accomp_desc
 */
 
 -- Connect WO and location by WO_num
@@ -30,6 +33,7 @@ WO_Status
 */
 
 /*
+WO_ProbDesc
     WONum
     Problem_code_desc
     reasons_to_repair_desc

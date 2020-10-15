@@ -125,7 +125,10 @@ Meters
 */
 
 create table Meters (
-    
+    meter_name char(255) not null,
+    meter_goalGroup char(255) not null,
+    meter_reading decimal() not null,
+    meter_desc char(255) not null
 );
 -- Meter WO and Projects connected by PS_Project
 -- Linked via goal group

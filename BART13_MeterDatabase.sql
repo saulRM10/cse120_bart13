@@ -146,3 +146,49 @@ create table Projects (
     project_activity char(255) not null,
     project_activity_desc char(255) not null
 );
+
+/*
+Both Power and AFC Meter Data have the exact same attributes
+    - Both Power and AFC Meter Data are connected to Work Orders via BartDept
+    - All for the maintenance team
+*/
+
+/*
+Two tables contained in each data: Department and Assets
+    - The two separate tables in each are connected via AssetNum
+*/
+
+/*
+Department
+    BartDept
+    AssetNum
+    MeterName
+    Status
+*/
+
+create table department (
+    d_BARTdept char(255),
+    d_assetNum integer(),
+    d_meterName char(255),
+    d_status char(255)
+);
+
+/*
+Assets
+    AssetNum
+    Reading
+    Reading_Date
+    delta
+    Reading_source
+    enter_date
+    description
+*/
+create table assets (
+    a_assetNum integer(),
+    a_reading= 
+);
+
+-- Power Meter Data
+
+
+-- AFC Meter Data

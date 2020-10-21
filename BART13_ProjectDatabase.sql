@@ -22,14 +22,16 @@ create table Meters (
 );
 
 -- Insertions needs to be automated
+/*
 insert into Meters (
     meter_name,
     meter_goalGroup,
     meter_reading,
     meter_desc
 );
+*/
 
-delete from Meters;
+-- delete from Meters;
 
 -- Meter WO and Meters Connected/organized via goal group
 -- Meter WO and Projects connected by PS_Project
@@ -60,12 +62,13 @@ create table Meter_WorkOrder (
     m_WO_type char(255) not null,
     m_WO_tpid int(255) not null,
     m_WO_goal int(255) not null,
-    m_WO_units char(255) not null,
-    m_WO_reportDate char(255) not null,
+    m_WO_units char(255),
+    m_WO_reportDate date,
     m_WO_desc char(255) not null,
     m_WO_status char(255) not null
 );
 
+/*
 insert into Meter_WorkOrder (
     m_WO_PSproject,
     m_WO_num,
@@ -82,6 +85,7 @@ insert into Meter_WorkOrder (
 );
 
 delete from Meter_WorkOrder;
+*/
 
 /*
 Projects
@@ -97,6 +101,7 @@ create table Projects (
     project_activity_desc char(255) not null
 );
 
+/*
 insert into Projects (
     project_PSProject,
     project_desc,
@@ -105,7 +110,7 @@ insert into Projects (
 );
 
 delete from Projects;
-
+*/
 
 /*
 Both Power and AFC Meter Data have the exact same attributes
@@ -132,6 +137,7 @@ create table department (
     d_status char(255)
 );
 
+/*
 insert into department (
     d_BARTdept,
     d_assetNum,
@@ -140,3 +146,4 @@ insert into department (
 );
 
 delete from department;
+*/

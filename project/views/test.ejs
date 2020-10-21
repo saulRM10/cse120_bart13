@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Test Page</title>
 </head>
 <body>
     <nav>
     <ul>
-        
-    </ul>
+        <h1>Projects</h1>
+        <% for (let i = 0; i < proj.length; i++) { %>
+            <p> <%= proj[i].PS_Project,  %> </p>
+            <p> <%= proj[i].Description %> </p>
+            <p> <%= proj[i].Status %> </p>
+        <% } %>
+     </ul>
     </nav>
 </body>
 </html>

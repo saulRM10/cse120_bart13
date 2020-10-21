@@ -23,9 +23,21 @@ create table WorkOrder (
     WO_work_accomp_desc varchar(255)
 );
 
+/*
 insert into WorkOrder (
-    
+    WO_num,
+    WO_desc,
+    WO_alias,
+    WO_location,
+    WO_workType,
+    WO_assetType,
+    WO_status,
+    WO_BARTdept,
+    WO_work_accomp_desc
 );
+
+delete from WorkOrder;
+*/
 
 -- Connect WO and location by WO_num
 
@@ -43,8 +55,15 @@ create table WorkOrder_Location (
     WO_l_locDesc varchar(255)
 );
 
-insert into WorkOrder_Loc
+/*
+insert into WorkOrder_Loc (
+    WO_l_num,
+    WO_l_location,
+    WO_l_locDesc
+);
 
+delete from WorkOrder_Loc;
+*/
 
 /*
 WO_Status
@@ -57,12 +76,12 @@ WO_Status
 */
 
 create table WorkOrder_status (
-    WO_s_num int(255) not null,
-    WO_s_status varchar(255) not null,
-    WO_s_reportDate date not null,
-    WO_s_startDate date not null,
-    WO_s_finishDate date not null,
-    WO_s_laborHours int(255) not null
+    WO_s_num int(255),
+    WO_s_status varchar(255),
+    WO_s_reportDate date,
+    WO_s_startDate date,
+    WO_s_finishDate date,
+    WO_s_laborHours int(255)
 );
 
 /*
@@ -81,6 +100,18 @@ create table WorkOrder_ProbDesc (
     WO_pd_componentDesc char(255) not null,
     WO_pd_partfailDesc char(255) not null
 );
+
+/*
+insert into WorkOrder_ProbDesc (
+    WO_pd_num,
+    WO_pd_codeDesc,
+    WO_pd_reasonDesc,
+    WO_pd_componentDesc,
+    WO_pd_partfailDesc
+);
+
+delete from WorkOrder_ProbDesc;
+*/
 
 /*
 Assets
@@ -105,6 +136,21 @@ create table assets (
 );
 
 /*
+insert into assets
+(
+    a_assetNum,
+    a_reading,
+    a_readDate,
+    a_delta,
+    a_readSrc,
+    a_enterDate,
+    a_desc
+);
+
+delete from assets;
+*/
+
+/*
 Power Meter Data
     BARTDept
     AssetNum
@@ -117,6 +163,28 @@ create table Power_MeterData (
    pmd_reading int(255),
    pmd_enterDate date
 );
+
+/*
+insert into Power_MeterData (
+    pmd_BARTDept,
+    pmd_assetNum,
+    pmd_reading,
+    pmd_enterDate
+);
+
+delete from Power_MeterData;
+*/
+
+/*
+insert into Power_MeterData (
+    pmd_BARTDept,
+    pmd_assetNum,
+    pmd_reading,
+    pmd_enterDate
+);
+
+delete from Power_MeterData;
+*/
 
 /*
 AFC Meter Data
@@ -135,3 +203,14 @@ create table AFC_MeterData (
     afc_location varchar(255),
     afc_status char(255)
 );
+
+/*
+insert into Power_MeterData (
+    pmd_BARTDept,
+    pmd_assetNum,
+    pmd_reading,
+    pmd_enterDate
+);
+
+delete from Power_MeterData;
+*/

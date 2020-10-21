@@ -5,6 +5,27 @@
 -- Meter Readings
 
 /*
+Meters
+    Meter_Name
+    Goal_Group
+    Meter_Reading
+    Reading_date
+    Meter_Description
+    
+*/
+
+create table Meters (
+    meter_name char(255) not null,
+    meter_goalGroup char(255) not null,
+    meter_reading int(255) not null,
+    meter_desc char(255) not null
+);
+
+-- Meter WO and Meters Connected/organized via goal group
+-- Meter WO and Projects connected by PS_Project
+-- Linked via goal group
+
+/*
 Meter_WorkOrder
     PS_Project
     WO_num
@@ -22,40 +43,18 @@ Meter_WorkOrder
 
 create table Meter_WorkOrder (
     m_WO_PSproject char(7) not null,
-    m_WO_num decimal() not null,
+    m_WO_num int(255) not null,
     m_WO_dept char(255) not null,
     m_WO_loc char(255) not null,
     m_WO_goalGroup char(255) not null,
     m_WO_type char(255) not null,
-    m_WO_tpid decimal() not null,
-    m_WO_goal char(255) not null,
-    m_WO_goal decimal() not null,
+    m_WO_tpid int(255) not null,
+    m_WO_goal int(255) not null,
     m_WO_units char(255) not null,
     m_WO_reportDate char(255) not null,
     m_WO_desc char(255) not null,
     m_WO_status char(255) not null
 );
-
--- Meter WO and Meters Connected/organized via goal group
-
-/*
-Meters
-    Meter_Name
-    Goal_Group
-    Meter_Reading
-    Reading_date
-    Meter_Description
-    
-*/
-
-create table Meters (
-    meter_name char(255) not null,
-    meter_goalGroup char(255) not null,
-    meter_reading decimal() not null,
-    meter_desc char(255) not null
-);
--- Meter WO and Projects connected by PS_Project
--- Linked via goal group
 
 /*
 Projects
@@ -89,10 +88,9 @@ Department
     MeterName
     Status
 */
-
 create table department (
     d_BARTdept char(255),
-    d_assetNum integer(),
+    d_assetNum int(255),
     d_meterName char(255),
     d_status char(255)
 );

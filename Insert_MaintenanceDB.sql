@@ -63,11 +63,13 @@ insert into Power_MeterData (
 )
 values();
 
-insert into Power_MeterData (
-    pmd_BARTDept,
-    pmd_assetNum,
-    pmd_reading,
-    pmd_enterDate
+create table AFC_MeterData (
+    afc_workOrderNum,
+    afc_workType,
+    afc_BARTDept,
+    afc_reportDate,
+    afc_location,
+    afc_status
 )
 values();
 

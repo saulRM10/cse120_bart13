@@ -23,10 +23,6 @@ create table WorkOrder (
     WO_work_accomp_desc varchar(255)
 );
 
-/*
-delete from WorkOrder;
-*/
-
 -- Connect WO and location by WO_num
 
 /*
@@ -42,10 +38,6 @@ create table WorkOrder_Location (
     WO_l_location varchar(255),
     WO_l_locDesc varchar(255)
 );
-
-/*
-delete from WorkOrder_Loc;
-*/
 
 /*
 WO_Status
@@ -84,10 +76,6 @@ create table WorkOrder_ProbDesc (
 );
 
 /*
-delete from WorkOrder_ProbDesc;
-*/
-
-/*
 Assets
     AssetNum
     Reading
@@ -110,10 +98,6 @@ create table assets (
 );
 
 /*
-delete from assets;
-*/
-
-/*
 Power Meter Data
     BARTDept
     AssetNum
@@ -127,20 +111,6 @@ create table Power_MeterData (
    pmd_enterDate date
 );
 
-/*
-delete from Power_MeterData;
-*/
-
-/*
-insert into Power_MeterData (
-    pmd_BARTDept,
-    pmd_assetNum,
-    pmd_reading,
-    pmd_enterDate
-);
-
-delete from Power_MeterData;
-*/
 
 /*
 AFC Meter Data

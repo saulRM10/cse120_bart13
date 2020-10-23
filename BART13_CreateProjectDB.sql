@@ -17,7 +17,7 @@ Meters
 create table Meters (
     meter_name char(255) not null,
     meter_goalGroup char(255) not null,
-    meter_reading int(255) not null,
+    meter_reading decimal(9,0) not null,
     meter_desc char(255) not null
 );
 
@@ -55,17 +55,17 @@ Meter_WorkOrder
 
 create table Meter_WorkOrder (
     m_WO_PSproject char(7) not null,
-    m_WO_num int(255) not null,
+    m_WO_num decimal(9,0) not null,
     m_WO_dept char(255) not null,
     m_WO_loc char(255) not null,
     m_WO_goalGroup char(255) not null,
     m_WO_type char(255) not null,
-    m_WO_tpid int(255) not null,
-    m_WO_goal int(255) not null,
+    m_WO_tpid decimal(9,0) not null,
+    m_WO_goal decimal(9,0) not null,
     m_WO_units char(255),
     m_WO_reportDate date,
     m_WO_desc char(255) not null,
-    m_WO_status char(255) not null
+    m_WO_status char(10) not null
 );
 
 /*
@@ -132,9 +132,9 @@ Department
 */
 create table department (
     d_BARTdept char(255),
-    d_assetNum int(255),
+    d_assetNum decimal(9,0),
     d_meterName char(255),
-    d_status char(255)
+    d_status char(10)
 );
 
 /*

@@ -12,13 +12,13 @@ WorkOrders
 */
 
 create table WorkOrder (
-    WO_num int(255),
+    WO_num decimal(9,0),
     WO_desc varchar(255),
-    WO_alias int(255),
+    WO_alias decimal(9,0),
     WO_location varchar(255),
     WO_workType char(2),
     WO_assetType varchar(255),
-    WO_status char(255),
+    WO_status char(10),
     WO_BARTdept varchar(255),
     WO_work_accomp_desc varchar(255)
 );
@@ -38,7 +38,7 @@ WO_Loc
 */
 
 create table WorkOrder_Location (
-    WO_l_num int(255),
+    WO_l_num decimal(9,0),
     WO_l_location varchar(255),
     WO_l_locDesc varchar(255)
 );
@@ -57,12 +57,12 @@ WO_Status
 */
 
 create table WorkOrder_status (
-    WO_s_num int(255) not null,
-    WO_s_status varchar(255) not null,
-    WO_s_reportDate date not null,
-    WO_s_startDate date not null,
-    WO_s_finishDate date not null,
-    WO_s_laborHours int(255) not null
+    WO_s_num decimal(9,0),
+    WO_s_status varchar(255),
+    WO_s_reportDate date,
+    WO_s_startDate date,
+    WO_s_finishDate date,
+    WO_s_laborHours decimal(9,0)
 );
 
 /*
@@ -75,11 +75,11 @@ WO_ProbDesc
 */
 
 create table WorkOrder_ProbDesc (
-    WO_pd_num int(255) not null,
-    WO_pd_codeDesc char(255) not null,
-    WO_pd_reasonDesc char(255) not null,
-    WO_pd_componentDesc char(255) not null,
-    WO_pd_partfailDesc char(255) not null
+    WO_pd_num decimal(9,0),
+    WO_pd_codeDesc char(255),
+    WO_pd_reasonDesc char(255),
+    WO_pd_componentDesc char(255),
+    WO_pd_partfailDesc char(255)
 );
 
 /*
@@ -95,7 +95,7 @@ Assets
 
 -- Get Assets from Power and AFC Readings
 create table assets (
-    a_assetNum int(255),
+    a_assetNum decimal(9,0),
     a_reading float(24),
     a_readDate date,
     a_delta float(24),
@@ -114,7 +114,7 @@ Power Meter Data
 create table Power_MeterData (
    pmd_BARTDept char(255),
    pmd_assetNum varchar(255),
-   pmd_reading int(255),
+   pmd_reading decimal(9,0),
    pmd_enterDate date
 );
 
@@ -128,10 +128,10 @@ AFC Meter Data
     Status
 */
 create table AFC_MeterData (
-    afc_workOrderNum int(255),
+    afc_workOrderNum decimal(9,0),
     afc_workType char(2),
     afc_BARTDept char(255),
     afc_reportDate date,
     afc_location varchar(255),
-    afc_status char(255)
+    afc_status char(10)
 );

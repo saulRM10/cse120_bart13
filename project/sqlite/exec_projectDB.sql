@@ -1,0 +1,1 @@
+-- Obtain all meter readings

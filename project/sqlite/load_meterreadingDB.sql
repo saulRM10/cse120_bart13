@@ -10,7 +10,13 @@ CREATE TABLE meterreading_tbl (
     GOAL_GROUP varchar(255),
     WONUM decimal(9,0),
     DESCRIPTION varchar(255),
-    
+    STATUS char(10),
     REPORT_DATE date,
-
+    LOCATION varchar(10),
+    TYPE char(5),
+    TPID varchar(10),
+    PS_PROJECT varchar(8),
+    PS_PROJECT_DESC varchar(255),
+    PS_ACTIVITY varchar(5),
+    PS_ACTIVITY_DESC varchar(255)
 );

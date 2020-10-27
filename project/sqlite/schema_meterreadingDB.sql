@@ -1,14 +1,17 @@
 CREATE TABLE MeterWO (
     PS_Project varchar(7),
-    WO_num decimal(9,0),
-    department char(255),
-    type char(4),
-    TPID decimal(10,0),
-    goal int(255),
-    units char(20),
-    reported_date date,
+    WO_Num decimal(9,0),
+    Department char(255),
+    Location varchar(10),
+    Goal_Group varchar(255),
+    Type char(4),
+    tpid decimal(10,0),
+    Goal int(),
+    Completion float(),
+    Units char(20),
+    Reported_Date date,
     Description char(255),
-    status char(10)
+    Status char(10)
 );
 
 CREATE TABLE Meters (
@@ -25,3 +28,34 @@ CREATE TABLE Projects (
     p_Activity varchar(255),
     p_Activity_Desc varchar(255)
 );
+
+-- Populate the tables in the database
+INSERT INTO MeterWO
+SELECT PS_PROJECT,
+    WONUM,
+    DEPARTMENT,
+    LOCATION,
+    GOAL_GROUP,
+    TYPE,
+    TPID,
+    GOAL,
+    METER_UNITS,
+    REPORT_DATE,
+    DESCRIPTION,
+    STATUS
+FROM meterreading_tbl;
+
+INSERT INTO Meters
+SELECT METER_NAME,
+    GOAL_GROUP,
+    METER_READING,
+    METER_DATE,
+    METER_DESCRIPTION
+FROM meterreading_tbl;
+
+INSERT INTO Projects
+SELECT PS_PROJECT,
+    DESCRIPTION,
+    PS_ACTIVITY,
+    PS_ACTIVITY_DESC
+FROM meterreading_tbl;

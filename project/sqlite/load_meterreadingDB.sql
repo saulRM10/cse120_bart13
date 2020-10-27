@@ -6,6 +6,7 @@ CREATE TABLE meterreading_tbl (
     METER_READING int(),
     METER_UNITS varchar(150),
     GOAL int(),
+    COMPLETION float(),
     METER_NAME varchar(150),
     GOAL_GROUP varchar(255),
     WONUM decimal(9,0),

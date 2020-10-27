@@ -1,12 +1,9 @@
--- Obtain all meter work orders from the projects via PS_PROJECT
-SELECT PS_Project, WO_Num, Department, 
+-- Obtain all projects via PS_PROJECT
+SELECT PS_Project, p_Description, Status 
 FROM MeterWO, Meters, Project
 WHERE PS_Project = p_PS_Project;
 
--- Obtain meter readings for each project work order to display
-SELECT 
-
--- Obtain meter work orders from the meters via Goal_Group
-SELECT 
+-- Obtain meter readings for each project work order to display when clicked on
+SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Reading, m_Reading_Date, Completion
 FROM MeterWO, Meters, Project
-WHERE Goal_Group = m_Goal_Group;
+WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project;

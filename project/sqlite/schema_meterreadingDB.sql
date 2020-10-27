@@ -6,8 +6,8 @@ CREATE TABLE MeterWO (
     Goal_Group varchar(255),
     Type char(4),
     tpid decimal(10,0),
-    Goal int(),
-    Completion float(),
+    Goal int(255),
+    Completion float(3,2),
     Units char(20),
     Reported_Date date,
     Description char(255),
@@ -20,6 +20,7 @@ CREATE TABLE Meters (
     m_Meter_Reading int(255),
     m_Reading_Date date,
     m_Meter_Desc varchar(255)
+    m_Completion float(3,2)
 );
 
 CREATE TABLE Projects (
@@ -39,6 +40,7 @@ SELECT PS_PROJECT,
     TYPE,
     TPID,
     GOAL,
+    COMPLETION,
     METER_UNITS,
     REPORT_DATE,
     DESCRIPTION,
@@ -50,7 +52,8 @@ SELECT METER_NAME,
     GOAL_GROUP,
     METER_READING,
     METER_DATE,
-    METER_DESCRIPTION
+    METER_DESCRIPTION,
+    COMPLETION
 FROM meterreading_tbl;
 
 INSERT INTO Projects

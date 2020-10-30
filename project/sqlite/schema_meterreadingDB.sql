@@ -6,7 +6,7 @@ CREATE TABLE MeterWO (
     Goal_Group varchar(255),
     Type char(4),
     tpid decimal(10,0),
-    Goal int(255),
+    Goal integer,
     Completion float(3,2),
     Units char(20),
     Reported_Date date,
@@ -17,9 +17,9 @@ CREATE TABLE MeterWO (
 CREATE TABLE Meters (
     m_Meter_Name varchar(30),
     m_Goal_Group varchar(255),
-    m_Meter_Reading int(255),
+    m_Meter_Reading integer,
     m_Reading_Date date,
-    m_Meter_Desc varchar(255)
+    m_Meter_Desc varchar(255),
     m_Completion float(3,2)
 );
 

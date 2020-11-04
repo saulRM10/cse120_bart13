@@ -37,6 +37,18 @@ function getProjects() {
 
 }
 
+function getMeterWO() {
+    const response = await fetch('ProjectDB.csv');  // Needs to extract from MeterWO table
+    const data = await response.text();
+    console.log(data);
+
+    rows.forEach(index => {
+        const row = index.split(',');
+        console.log(row);
+});
+    console.log(rows);
+}
+
 function getMeterInfo() {
     const response = await fetch('ProjectDB.csv');
     const data = await response.text();

@@ -1,5 +1,5 @@
 CREATE TABLE meterreading_tbl (
-    PROJECT varchar(3) not null,
+    PROJECT varchar(3),
     DEPARTMENT char(20),
     METER_NAME varchar(150),
     METER_DESCRIPTION varchar(150),

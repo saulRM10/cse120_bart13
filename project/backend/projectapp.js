@@ -48,26 +48,36 @@ app.get("/", (req, res) => {
         return console.error(err.message);
       }
       res.render("list", {model: rows});//list under views and pass mode=variable
-    })
+    });
   }
 });
 
 function calc_OverallCompletionRate() {
-  // let completion_list = [];
-  let result = 0;
-  // let total = 0;
+  let totalProgress = 0;
+  let totalGoal = 0;
+  let completionRate = 0;
 
-  const sql = "SELECT m_Meter_Reading FROM workorder_tbl WHERE Completion IS NULL"
+  // Select meter readings from the same goal group
+  const sql = "SELECT m_Meter_Reading, Goal FROM Meters WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2' AND m_Completion IS NULL"
   db.all(sql, [], (err, rows) => {
     if (err) {
       return console.error(err.message);
     }
 
     for (const item of rows) {
-      result = math.round((item.m_Meter_Reading / item.Goal) * 100); // Round completion by percentage
-      (item.Completion).push(result);
+      (item.Completion).push(math.round((item.m_Meter_Reading / item.Goal) * 100));
+
+      totalProgress += item.m_Meter_Reading;
+      totalGoal += item.Goal;
+
       // console.log(item.Completion)
     }
+
+    completionRate = math.round((totalProgress/totalgoal) * 100); // Round completion by percentage
+
+    console.log(totalProgress);
+    console.log(totalGoal);
+    console.log(completionRate);
   });
 }
 

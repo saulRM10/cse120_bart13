@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+    <tittle>work orders</tittle>
+</head>
+
+<body>
+    <!--filter by range-->
+    <form class="" action="/" method="post">
+        <h5>From</h5>
+        <input type="text" name="from_date">
+        <h5>To</h5>
+        <input type="text" name="to_date">
+    <button type="submit" name="button1">apply</button>
+    <button type="submit" name="button2">cancel</button>
+    </form>
+
+
+
+    <!--list-->
+    <table style="width:100%">
+        <tr>
+          <th>WorkOrder#</th>
+          <th>Work Type</th> 
+          <th>Reported Date</th>
+          <th>Location</th>
+          <th>Status</th>
+        </tr>
+        <% for (const item of model) { %>
+            <tr>
+              <td><%= item.wonum %></td>
+              <td><%= item.work_type %></td>
+              <td><%= item.asset_type %></td>
+              <td><%= item.l_location %></td>
+              <td><%= item.s_reportdate %></td>
+            </tr>
+          <% } %>
+      </table>
+  
+</body>
+</html>

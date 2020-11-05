@@ -12,6 +12,7 @@ WorkOrders
 */
 
 create table WorkOrder (
+<<<<<<< HEAD:BART13_CreateMaintenanceDB.sql
     WO_num decimal(9,0),
     WO_desc varchar(255),
     WO_alias decimal(9,0),
@@ -25,6 +26,17 @@ create table WorkOrder (
 
 insert into WorkOrder (
     
+=======
+    WO_num int(255),
+    WO_desc varchar(255),
+    WO_alias int(255),
+    WO_location varchar(255),
+    WO_workType char(2),
+    WO_assetType varchar(255),
+    WO_status char(255),
+    WO_BARTdept varchar(255),
+    WO_work_accomp_desc varchar(255)
+>>>>>>> master:BART13_Maintenance.sql
 );
 
 -- Connect WO and location by WO_num
@@ -38,7 +50,11 @@ WO_Loc
 */
 
 create table WorkOrder_Location (
+<<<<<<< HEAD:BART13_CreateMaintenanceDB.sql
     WO_l_num decimal(9,0),
+=======
+    WO_l_num int(255),
+>>>>>>> master:BART13_Maintenance.sql
     WO_l_location varchar(255),
     WO_l_locDesc varchar(255)
 );
@@ -57,12 +73,20 @@ WO_Status
 */
 
 create table WorkOrder_status (
+<<<<<<< HEAD:BART13_CreateMaintenanceDB.sql
     WO_s_num decimal(9,0),
+=======
+    WO_s_num int(255),
+>>>>>>> master:BART13_Maintenance.sql
     WO_s_status varchar(255),
     WO_s_reportDate date,
     WO_s_startDate date,
     WO_s_finishDate date,
+<<<<<<< HEAD:BART13_CreateMaintenanceDB.sql
     WO_s_laborHours decimal(9,0)
+=======
+    WO_s_laborHours int(255)
+>>>>>>> master:BART13_Maintenance.sql
 );
 
 /*
@@ -114,9 +138,14 @@ Power Meter Data
 create table Power_MeterData (
    pmd_BARTDept char(255),
    pmd_assetNum varchar(255),
+<<<<<<< HEAD:BART13_CreateMaintenanceDB.sql
    pmd_reading decimal(9,0),
+=======
+   pmd_reading int(255),
+>>>>>>> master:BART13_Maintenance.sql
    pmd_enterDate date
 );
+
 
 /*
 AFC Meter Data
@@ -133,5 +162,14 @@ create table AFC_MeterData (
     afc_BARTDept char(255),
     afc_reportDate date,
     afc_location varchar(255),
+<<<<<<< HEAD:BART13_CreateMaintenanceDB.sql
     afc_status char(10)
 );
+=======
+    afc_status char(255)
+);
+
+/*
+delete from Power_MeterData;
+*/
+>>>>>>> master:BART13_Maintenance.sql

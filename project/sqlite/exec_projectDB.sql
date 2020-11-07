@@ -9,4 +9,8 @@ SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Readin
 FROM MeterWO, Meters, Projects
 WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project;
 
+-- Obtain all projects from Project
+SELECT *
+FROM Projects;
+
 UPDATE MeterWO, Meters, Projects

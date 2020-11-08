@@ -53,7 +53,6 @@ app.get("/", (req, res) => {
   }
 });
 
-/*
 function calc_OverallCompletionRate() {
   let totalProgress = 0;
   let totalGoal = 0;
@@ -82,7 +81,6 @@ function calc_OverallCompletionRate() {
     console.log(completionRate);
   });
 }
-*/
 
 function displayProjects() {
   const sql = "SELECT * FROM Projects"
@@ -99,6 +97,8 @@ function displayProjects() {
 
 function displayMeterInfo() {
   const sql = "SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Reading, m_Reading_Date, Completion FROM MeterWO, Meters, Project WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project"
+
+  /*
   db.get(sql, [], (err, row) => {
     if (err) {
       return console.error(err.message);
@@ -113,6 +113,13 @@ function displayMeterInfo() {
     console.log(row.m_Meter_Reading);
     console.log(row.m_Reading_Date);
     console.log(row.Completion);
+  });
+  */
+
+  db.all(sql, function(err, row) {
+    rows.forEach(function(row) {
+      console.log(row.WO_Num, row.Department, row.Goal_Group, row.Goal, row.Units, row.m_Meter_Name, row.m_Meter_Reading, row.m_Reading_Date, row.Completion);
+    })
   });
 }
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <table style = "width:100%">
+    <tr>
+        <th>Project ID</th>
+        <th>Description</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+    <% for (const item of model) { %>
+        <TD class = "select">
+        <td><%= item.PS_Project %></td>
+        <td><%= item.p_Description %></td>
+        <td><%= item.Status %></td>
+        </TD>   
+        <TD ALIGN="center">
+            <select>
+                <tr>
+                <th>WO number</th>
+                <th>Department</th>
+                <th>Goal Group</th>
+                <th>Completion</th>
+                <th>Goal</th>
+                <th># of Units</th>
+
+                </tr>
+                <option><%= item.WO_Num %></option>
+            </select>
+    </TD>
+    </tr>
+   </table>
+</body>
+</html>

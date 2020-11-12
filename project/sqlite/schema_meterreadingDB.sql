@@ -30,6 +30,12 @@ CREATE TABLE Projects (
     p_Activity_Desc varchar(255)
 );
 
+CREATE TABLE Activity (
+    a_PS_Project varchar(7),
+    a_Update varchar(255),
+    a_Date date
+);
+
 -- Populate the tables in the database
 INSERT INTO MeterWO
 SELECT PS_PROJECT,
@@ -62,3 +68,10 @@ SELECT PS_PROJECT,
     PS_ACTIVITY,
     PS_ACTIVITY_DESC
 FROM meterreading_tbl;
+
+INSERT INTO Activity (a_PS_PROJECT, a_Update, a_Date)
+VALUES (
+    
+);
+
+        

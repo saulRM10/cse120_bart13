@@ -30,6 +30,7 @@ let db = new sqlite3.Database('./data/meterDB.sqlite',sqlite3.OPEN_READWRITE,(er
 calc_OverallCompletionRate();
 displayProjects();
 displayMeterInfo();
+displayActivities();
 
 app.get("/", (req, res) => {
   if(fromInput == "" && toInput == ""){
@@ -121,6 +122,11 @@ function displayMeterInfo() {
       console.log(row.WO_Num, row.Department, row.Goal_Group, row.Goal, row.Units, row.m_Meter_Name, row.m_Meter_Reading, row.m_Reading_Date, row.Completion);
     })
   });
+}
+
+function displayActivities() {
+    const sql = "SELECT PS_PROJECT, , STATUS"
+
 }
 
 app.listen(3000, function(){//our server

@@ -13,4 +13,7 @@ WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project;
 SELECT *
 FROM Projects;
 
-UPDATE MeterWO, Meters, Projects
+
+-- Display Activity
+SELECT *
+FROM Activity;

@@ -8,6 +8,13 @@ SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Readin
 FROM MeterWO, Meters, Projects
 WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project;
 
+SELECT MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+FROM MeterWO, Projects
+WHERE
+    PS_Project = p_PS_Project;
+
+
+
 -- Need to display meters belonging to the same goal group
 SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
 FROM Meters, MeterWO

@@ -1,9 +1,6 @@
 -- Obtain all projects via PS_PROJECT
-SELECT Projects.p_PS_Project, Projects.p_Description, MeterWO.Status
-FROM Projects, MeterWO
-WHERE
-    PS_Project = p_PS_Project
-GROUP BY p_PS_Project;
+SELECT p_PS_Project, p_Description, p_Status
+FROM Projects, MeterWO;
 
 -- Obtain meter readings for each project work order to display when clicked on
 -- Meter readings must be displayed within the same work order
@@ -19,8 +16,7 @@ WHERE m_Goal_Group IN (
         FROM meterreading_tbl
         GROUP BY GOAL_GROUP
         HAVING COUNT(PS_PROJECT) > 1
-    )
-GROUP BY m_Meter_Name;
+    );
 
 
 -- Display Activity

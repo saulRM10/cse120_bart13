@@ -27,7 +27,8 @@ CREATE TABLE Projects (
     p_PS_Project varchar(7),
     p_Description char(255),
     p_Activity varchar(255),
-    p_Activity_Desc varchar(255)
+    p_Activity_Desc varchar(255),
+    p_Status char(10)
 );
 
 CREATE TABLE Activity (
@@ -66,12 +67,17 @@ INSERT INTO Projects
 SELECT PS_PROJECT,
     DESCRIPTION,
     PS_ACTIVITY,
-    PS_ACTIVITY_DESC
+    PS_ACTIVITY_DESC,
+    STATUS
 FROM meterreading_tbl;
 
 INSERT INTO Activity (a_PS_PROJECT, a_Update, a_Date)
 VALUES (
-    
+
 );
+
+DROP TABLE IF EXISTS MeterWO;
+DROP TABLE IF EXISTS Meters;
+DROP TABLE IF EXISTS Projects;
 
         

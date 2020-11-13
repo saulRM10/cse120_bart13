@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');//tell our app to use ejs as its view engine
 app.use(bodyParser.urlencoded({extended:true}));
 
 // open the database
-let db = new sqlite3.Database('./data/meterDB.sqlite',sqlite3.OPEN_READWRITE,(err) => { // if fails, use "./project/data/meterDB.sqlite"
+var db = new sqlite3.Database('./data/meterDB.sqlite',sqlite3.OPEN_READWRITE,(err) => { // if fails, use "./project/data/meterDB.sqlite"
     if (err) {
       console.error(err.message);
     }

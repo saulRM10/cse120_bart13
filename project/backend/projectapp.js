@@ -32,7 +32,7 @@ let db = new sqlite3.Database('./data/meterDB.sqlite',sqlite3.OPEN_READWRITE,(er
 calc_OverallCompletionRate();
 displayProjects();
 displayMeterInfo();
-displayActivities();
+// displayActivities();
 
 app.get("/", (req, res) => {
   if(fromInput == "" && toInput == ""){

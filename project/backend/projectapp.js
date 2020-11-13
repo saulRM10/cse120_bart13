@@ -5,12 +5,14 @@ const bodyParser = require("body-parser");
 const sqlite3 = require('sqlite3').verbose();
 //your created modules:
 const calculateTrend = require(__dirname + "/calculateTrend.js");
-const app= express();
+const app = express();
 const math = require('mathjs');
 
 
 var fromInput="";
 var toInput="";
+
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');//tell our app to use ejs as its view engine
 //to get date from browser: filter by dates:use bodyparser
 app.use(bodyParser.urlencoded({extended:true}));
@@ -84,9 +86,9 @@ function calc_OverallCompletionRate() {
 }
 
 function displayProjects() {
-  const sql = "SELECT * FROM Projects"
+  const sql = "SELECT Projects.p_PS_Project, Projects.p_Description, MeterWO.Status FROM Projects, MeterWO WHERE PS_Project = p_PS_Project GROUP BY p_PS_Project"
 
-  console.log("PS Project  Description Status");
+  // console.log("PS Project  Description Status");
 
   db.all(sql, function(err, row) {
     rows.forEach(function(row) {
@@ -124,10 +126,12 @@ function displayMeterInfo() {
   });
 }
 
+/*
 function displayActivities() {
     const sql = "SELECT PS_PROJECT, , STATUS"
 
 }
+*/
 
 app.listen(3000, function(){//our server
   console.log("server started on port 3000");//print on console

@@ -28,6 +28,47 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
 // displayProject();
 // displayMeterReading();
 
+// Display all projects from the database
+app.get('/projecttest', (req, res, next) => {
+    let sql = `SELECT p_PS_Project, p_Description, p_Status
+                FROM Projects, MeterWO`;
+
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+    
+        // Print out Project rows on the console
+        // rows.forEach((row) => {
+        //     console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+        // });
+
+        res.json({"Message":"Success",
+                    "Data":rows})
+    }); 
+});
+
+// Display the meter info from each project
+app.get('/metertest', (req, res, next) => {
+    let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
+                FROM Meters, MeterWO
+                WHERE m_Goal_Group IN (
+                        SELECT GOAL_GROUP
+                        FROM meterreading_tbl
+                        GROUP BY GOAL_GROUP
+                        HAVING COUNT(PS_PROJECT) > 1
+                    )`;
+
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+
+        res.json({"Message":"Success",
+                    "Data":rows})
+    }); 
+});
+
 // function calculateCompletion() {
 //     let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal FROM Meters, MeterWO WHERE m_Goal_Group IN (SELECT GOAL_GROUP FROM meterreading_tbl GROUP BY GOAL_GROUP HAVING COUNT(PS_PROJECT) > 1)`;
 
@@ -81,47 +122,6 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
 // app.get('/test', (req, res) => {
 //     res.render('views/test');
 // });
-
-// Display all projects from the database
-app.get('/projecttest', (req, res, next) => {
-    let sql = `SELECT p_PS_Project, p_Description, p_Status
-                FROM Projects, MeterWO`;
-
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-    
-        // Print out Project rows on the console
-        // rows.forEach((row) => {
-        //     console.log(row.p_PS_Project, row.p_Description, row.p_Status);
-        // });
-
-        res.json({"Message":"Success",
-                    "Data":rows})
-    }); 
-});
-
-// Display the meter info from each project
-app.get('/metertest', (req, res, next) => {
-    let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
-                FROM Meters, MeterWO
-                WHERE m_Goal_Group IN (
-                        SELECT GOAL_GROUP
-                        FROM meterreading_tbl
-                        GROUP BY GOAL_GROUP
-                        HAVING COUNT(PS_PROJECT) > 1
-                    )`;
-
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-
-        res.json({"Message":"Success",
-                    "Data":rows})
-    }); 
-});
 
 // db.close(() => {
 //     if (err) {

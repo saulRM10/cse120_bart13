@@ -30,8 +30,8 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
 
 // Display all projects from the database
 app.get('/projecttest', (req, res, next) => {
-    let sql = `SELECT p_PS_Project, p_Description, p_Status
-                FROM Projects, MeterWO`;
+    let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
+                FROM Projects, MeterWO;`;
 
     db.all(sql, [], (err, rows) => {
         if (err) {

@@ -37,13 +37,6 @@ CREATE TABLE Activity (
     a_Date date
 );
 
-CREATE TABLE Test (
-    t_PS_Project varchar(7),
-    t_WO_Num decimal(9,0),
-    t_Description char(255),
-
-);
-
 -- Populate the tables in the database
 INSERT INTO MeterWO
 SELECT PS_PROJECT,

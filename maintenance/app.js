@@ -30,6 +30,27 @@ let db = new sqlite3.Database('./data/workorderDB.sqlite',sqlite3.OPEN_READWRITE
 calculateAproxHours();
 displayWOinfo();
 
+// use public folder with css and images 
+app.use(express.static("public"))
+let description ="";
+let start_Date ="";
+let end_Date = "";
+
+// bottom tabs 
+
+let loc_desc = "";
+let brt_dept = "";
+let aprox_hrs = "";
+
+// main tabs 
+
+let work_order_number ="";
+let work_type = "";
+let asset_type = "";
+let reported_date = "";
+let location = "";
+let stat ="";
+
 app.get("/", (req, res) => {
   if(fromInput == "" && toInput == ""){
     const sql = "SELECT wonum,work_type, asset_type,s_reportdate,l_location,s_status FROM workorders,status,location WHERE wonum=s_wonum AND wonum=l_wonum ORDER BY s_FORMATreportdate"
@@ -66,10 +87,14 @@ app.post("/",function(req,res){
 
 function calculateAproxHours() {
   //inputType,inputwork,inputDept
+  var inputType=input.type;
+  var inputwork=input.work;
+  var inputDept=input.dep;
+
   let list_of_hrs=[];
   let result=0;
-  //const sql = "SELECT labor_hours FROM asset_trends WHERE type='"+inputType+"' AND work='"+inputwork+"' AND department='"+inputDept+"' AND labor_hours IS NOT NULL"
-  const sql ="SELECT labor_hours FROM asset_trends WHERE type= 'SWITCH MACH' AND work='PM' AND department='TC' AND labor_hours IS NOT NULL"
+  const sql = "SELECT labor_hours FROM asset_trends WHERE type='"+inputType+"' AND work='"+inputwork+"' AND department='"+inputDept+"' AND labor_hours IS NOT NULL"
+  
   db.all(sql, [], (err, rows) => {
     if (err) {
     return console.error(err.message);
@@ -78,35 +103,20 @@ function calculateAproxHours() {
     for (const item of rows) {
         list_of_hrs.push(item.labor_hours);
         } 
-      //if you want to access the data it has to be inside the all() function, 
-      //you cant return it either so move this to the app.js page
-        /*for (const i of list_of_hrs) {
-          console.log(i);
-          }
-          */
         result =math.std(list_of_hrs);
         console.log(result);
   }); 
 }
 function displayWOinfo() {
   //inputWO
+  var inputWO=input.type;
   let list_of_hrs=[];
   let result=0;
-  //const sql = "SELECT wonum,description,s_startdate,s_finishdate,department,l_description FROM workorders, status, location WHERE wonum=s_wonum AND wonum=l_wonum AND wonum='"+inputWO+"';"
-  const sql ="SELECT wonum,description, s_startdate,s_finishdate,department,l_description FROM workorders, status, location WHERE wonum=s_wonum AND wonum=l_wonum AND wonum= '15833129';"
+  const sql = "SELECT wonum,description,s_startdate,s_finishdate,department,l_description FROM workorders, status, location WHERE wonum=s_wonum AND wonum=l_wonum AND wonum='"+inputWO+"';"
   db.get(sql, [], (err, row) => {
     if (err) {
       return console.error(err.message);
     }
-
-      console.log(row.wonum);
-      console.log(row.description);
-      console.log(row.s_startdate);
-      console.log(row.s_finishdate);
-      console.log(row.department);
-      console.log(row.l_description);
-    
-     
   });
 }
 

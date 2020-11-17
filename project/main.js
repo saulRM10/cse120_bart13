@@ -48,7 +48,7 @@ app.get('/projecttest', (req, res, next) => {
     }); 
 });
 
-// Display the meter info from each project
+// Display the meter info from each project (Must display in the same project)
 app.get('/metertest', (req, res, next) => {
     let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
                 FROM Meters, MeterWO

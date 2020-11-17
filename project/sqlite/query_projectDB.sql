@@ -1,5 +1,5 @@
 -- Obtain all projects via PS_PROJECT
-SELECT p_PS_Project, p_Description, p_Status
+SELECT p_PS_Project, p_Project_Desc, p_Status
 FROM Projects, MeterWO;
 
 -- Obtain meter readings for each project work order to display when clicked on
@@ -25,7 +25,34 @@ WHERE m_Goal_Group IN (
         HAVING COUNT(PS_PROJECT) > 1
     );
 
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+FROM Meters
+WHERE
+    m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2';
+
+SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
+FROM Meters, MeterWO
+WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2';
+
+INSERT INTO meterreading_tbl(COMPLETION)
+VALUES
+    (METER_READING / GOAL);
+
 
 -- Display Activity
 SELECT *
 FROM Activity;
+
+SELECT *
+FROM Test
+ORDER BY t_PS_Project ASC,
+        t_Meter_Name ASC,
+        t_Meter_Reading ASC,
+        t_Goal ASC;
+
+SELECT t_PS_Project, t_WO_Num, t_Meter_Name, t_Meter_Reading, t_Goal, t_Meter_Date
+FROM Test
+ORDER BY t_PS_Project ASC,
+        t_Meter_Name ASC,
+        t_Meter_Reading ASC,
+        t_Goal ASC;

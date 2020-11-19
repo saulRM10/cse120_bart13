@@ -24,3 +24,19 @@ function openNav() {
 function closeNav(){
   document.getElementById("mySidenav").style.width="0";
 }
+
+function getWO(){
+  var data = "";
+  var desc=description;
+  var startDt=s_startdate;
+  var endDt=s_finishdate;
+  var dept=department;
+  var locDesc=l_description;
+}
+
+
+function getHours(){
+  var type= "";
+  var work= "";
+  var dep= "";
+}

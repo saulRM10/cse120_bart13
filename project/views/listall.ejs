@@ -7,7 +7,7 @@
 </head>
 <body>
     <form>
-        <input class="Proj" type="button" onclick="#" value="Project ID" />
+        <input class="Proj" type="button" onclick="#" value="List all" />
     </form>
    <table style = "width:100%">
     <tr>
@@ -15,7 +15,6 @@
         <th>Description</th>
         <th>Status</th>
     </tr>
-    <tr>
     <% for (const item of model) { %>
     <button>
         <table>
@@ -24,19 +23,39 @@
         <th><%= item.Status %></th>
         </table>
     </button>
-        <TD ALIGN="center">
-            <select>
+        <div class = "content">
+            <table>
                 <tr>
                 <th>WO number</th>
                 <th>Department</th>
                 <th>Goal Group</th>
-                <th>Completion</th>
                 <th>Goal</th>
                 <th># of Units</th>
+                </tr>
 
-            </select>
-    </TD>
-    </tr>
+                <tr>
+                    <td><% = item.WO_Num %></td>
+                    <td><% = item.Department %></td>
+                    <td><% = item.Goal_Group %></td>
+                    <td><% = item.Goal %></td>
+                    <td><% = item.Units %></td>
+                </tr>
+
+                <tr>
+                    <th>Meter Name</th>
+                    <th>Meter Reading</th>
+                    <th>Last Reading Date</th>
+                    <th>Completion %</th>
+                </tr>
+                <tr>
+                    <td><% = item.m_Meter_Name %> </td>
+                    <td><% = item.m_Meter_Reading %> </td>
+                    <td><% = item.m_Reading_Date %> </td>
+                    <td><% = item.Completion %> </td>
+                </tr>
+            </table>
+        </div>
+    <% } %>
    </table>
 </body>
 </html>

@@ -69,6 +69,22 @@ app.get('/metertest', (req, res, next) => {
     }); 
 });
 
+// Display the meter info from a specific goal group (Must display in the same project)
+app.get('/metertest2', (req, res, next) => {
+    let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
+                FROM Meters, MeterWO
+                WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'`;
+
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+
+        res.json({"Message":"Success",
+                    "Data":rows})
+    }); 
+});
+
 // function calculateCompletion() {
 //     let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal FROM Meters, MeterWO WHERE m_Goal_Group IN (SELECT GOAL_GROUP FROM meterreading_tbl GROUP BY GOAL_GROUP HAVING COUNT(PS_PROJECT) > 1)`;
 

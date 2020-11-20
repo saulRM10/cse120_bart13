@@ -22,7 +22,6 @@ create table Meters (
 );
 
 -- Insertions needs to be automated
-<<<<<<< HEAD:BART13_CreateProjectDB.sql
 /*
 insert into Meters (
     meter_name,
@@ -33,8 +32,6 @@ insert into Meters (
 */
 
 -- delete from Meters;
-=======
->>>>>>> master:BART13_ProjectDatabase.sql
 
 -- Meter WO and Meters Connected/organized via goal group
 -- Meter WO and Projects connected by PS_Project
@@ -63,20 +60,14 @@ create table Meter_WorkOrder (
     m_WO_loc char(255) not null,
     m_WO_goalGroup char(255) not null,
     m_WO_type char(255) not null,
-<<<<<<< HEAD:BART13_CreateProjectDB.sql
     m_WO_tpid decimal(9,0) not null,
     m_WO_goal decimal(9,0) not null,
-=======
-    m_WO_tpid int(255) not null,
-    m_WO_goal int(255) not null,
->>>>>>> master:BART13_ProjectDatabase.sql
     m_WO_units char(255),
     m_WO_reportDate date,
     m_WO_desc char(255) not null,
     m_WO_status char(10) not null
 );
 
-<<<<<<< HEAD:BART13_CreateProjectDB.sql
 /*
 insert into Meter_WorkOrder (
     m_WO_PSproject,
@@ -96,8 +87,6 @@ insert into Meter_WorkOrder (
 delete from Meter_WorkOrder;
 */
 
-=======
->>>>>>> master:BART13_ProjectDatabase.sql
 /*
 Projects
     PS_Project
@@ -112,7 +101,6 @@ create table Projects (
     project_activity_desc char(255) not null
 );
 
-<<<<<<< HEAD:BART13_CreateProjectDB.sql
 /*
 insert into Projects (
     project_PSProject,
@@ -124,8 +112,6 @@ insert into Projects (
 delete from Projects;
 */
 
-=======
->>>>>>> master:BART13_ProjectDatabase.sql
 /*
 Both Power and AFC Meter Data have the exact same attributes
     - Both Power and AFC Meter Data are connected to Work Orders via BartDept
@@ -151,7 +137,6 @@ create table department (
     d_status char(10)
 );
 
-<<<<<<< HEAD:BART13_CreateProjectDB.sql
 /*
 insert into department (
     d_BARTdept,
@@ -162,5 +147,3 @@ insert into department (
 
 delete from department;
 */
-=======
->>>>>>> master:BART13_ProjectDatabase.sql

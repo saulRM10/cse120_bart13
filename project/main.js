@@ -55,7 +55,7 @@ app.get('/projectview', (req, res) => {
 // Display all projects from the database
 app.get('/projecttest', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
-                FROM Projects, MeterWO;`;
+                FROM Projects;`;
 
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -71,6 +71,7 @@ app.get('/projecttest', (req, res, next) => {
             // res.json({"Message":"Success",
             //             "Data":rows});
 
+            res.render("test", {rows: rows});
         }
     }); 
 });
@@ -92,6 +93,12 @@ app.get('/metertest', (req, res, next) => {
         }
         else
         {
+
+            // Print out Project rows on the console
+            rows.forEach((row) => {
+                console.log(row.m_Meter_Name, row.m_Meter_Reading, row.m_Reading_Date, row.m_Goal_Group, row.Goal);
+            });
+            
             // res.json({"Message":"Success",
             //         "Data":rows});
         }
@@ -116,7 +123,11 @@ app.get('/metertest', (req, res, next) => {
 // });
 
 // function calculateCompletion() {
-//     let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal FROM Meters, MeterWO WHERE m_Goal_Group IN (SELECT GOAL_GROUP FROM meterreading_tbl GROUP BY GOAL_GROUP HAVING COUNT(PS_PROJECT) > 1)`;
+//     let sql = `SELECT Meters.m_Meter_Name,
+//                 Meters.m_Meter_Reading,
+//                 MeterWO.Goal
+//                 FROM Meters, MeterWO
+//                 WHERE m_Goal_Group IN (SELECT GOAL_GROUP FROM meterreading_tbl GROUP BY GOAL_GROUP HAVING COUNT(PS_PROJECT) > 1)`;
 
 //     var totalProgress = 0;
 //     var totalGoal = 0;
@@ -128,10 +139,13 @@ app.get('/metertest', (req, res, next) => {
 //         }
 
 //         rows.forEach((row) => {
-//             totalProgress += row.(Meters.m_MeterReading);
+//             totalProgress += row.m_MeterReading;
+            
 //         });
 
 //     });
+
+//     return completeRate;
 // }
 
 // function displayProject() {

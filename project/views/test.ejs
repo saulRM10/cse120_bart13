@@ -7,14 +7,16 @@
 </head>
 <body>
     <nav>
-    <ul>
+    <table>
         <h1>Projects</h1>
-        <% for (let i = 0; i < proj.length; i++) { %>
-            <p> <%= proj[i].PS_Project,  %> </p>
-            <p> <%= proj[i].Description %> </p>
-            <p> <%= proj[i].Status %> </p>
+        
+
+        <% for (const proj of rows) { %>
+            <th><%= rows.p_PS_Project %></th>
+            <th><%= rows.p_Description %></th>
+            <th><%= rows.p_Status %></th>
         <% } %>
-     </ul>
+    </table>
     </nav>
 </body>
 </html>

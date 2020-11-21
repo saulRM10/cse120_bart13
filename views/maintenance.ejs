@@ -1,58 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>GTCoding</title>
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <body>
-    <div class="container">
-        
-            <h2>Maintenance Template </h2>
-       
-      
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Orders</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-      <div class="select-box">
-        <div class="options-container">
-             
-          <div class="tabs">
-            <h3> Description </h3><h3> Start Date  </h3><h3> End Date </h3>
-          
-            <div class="data">
-         
-              <p> <%= description %>   </p><p>  <%= startDate %> </p><p>  <%= endDate %></p>
-
-            </div>
+    <!-- work order / activity tab switch  START -->
+   <form>
+    <input class="WO" type="button" onclick="#" value="Work Order" />
+    <input class=" AA" type="button" onclick="#" value="Activity" />
+  </form>
+   <!-- work order / activity tab switch END  -->
 
 
-        </div>
+    <!-- left main menu START-->
+<div class="sidenav" id="mySidenav">
 
-        
-        <div class="tabsBottom">
+    <a href="javasrcipt:void(0)" class="closebtn" onclick="closeNav()"> &times;</a>
+
+    <a href="#"> PROJECTS</a>
+    
+    <a href="#"> MAINTENANCE </a>
+
  
-         <h3> Location Description  </h3><h3> Department  </h3><h3> Hours </h3>
+</div>
+   <!-- Use any element to open the sidenav -->
+   <span onclick="openNav()">open</span>
+     <!-- left main menu END -->
 
-          <div class="dataBottom">
-             <!-- location description           | Department | Hours   -->
-              <p>  <%= locationDescription %> </p><p><%= dept %></p><p> <%= hrs %></p>
+      <!--Main tabs / header names  -->
+      <table style="width: 100%; padding-bottom: 20px;">
+        <th style="color: #0587E9; " > Work Order # </th>
+        <th style="color:  #0587E9; "> Work Type </th>
+        <th style="color:  #0587E9; "> Department </th>
+        <th style="color:  #0587E9; ">Asset Type </th>
+        <th style="color: #0587E9; "> Reported Date </th>
+        <th style="color:  #0587E9; ">Location</th>
+        <th style="color:  #0587E9; "> Status </th>
 
-          </div>
-      </div>
-          
-        </div>
+    </table>
+    <table style="width:100%">
+        <% for (const item of model) { %>  
 
-        <div class="selected">
-          <!-- Work Order Number              |  Work Type |                Asset Type |             reported date               |    location |            Status     -->
-          <h3>  <%= WorkOrderNum %> </h3><h3>  <%= WorkType %>  </h3><h3>  <%= asset %>  </h3><h3>  <%= rep_date %>  </h3> <h3>  <%= location %>  </h3><h3>  <%= status %>  </h3>
-        
-        
+        <button type="button" class="collapsible">
+            <table>
+                <th class="wo"  style="color: aliceblue;"> <%= item.wonum %> </th>
+                <th class="wt"  style="color: aliceblue;"> <%= item.work_type %> </th>
+                <th class="d"  style="color: aliceblue;"><%= item.department %> </th>
+                <th class="at"  style="color: aliceblue;"> <%= item.asset_type %></th>
+                <th  style="color: aliceblue;"> <%= item.s_reportdate %>  </th>
+                <th  style="color: aliceblue;"> <%= item.l_location %> </th>
+                <th  style="color: aliceblue;"> <%= item.s_status %> </th>
+            </table>
+        </button> 
+    
+<div class="content">
+    <table  >
+        <tr >
+          <th>Description</th>
+          <th>Start Date</th> 
+          <th>Finish Date</th>
+        </tr>
+        <tr class= "topDetails"> 
          
-        </div>
-      </div>
-    </div>
+        </tr>
+        <tr>
+          <th>Problem Description</th>
+          <th></th> 
+          <th>Department</th>
+        </tr>
+        <tr class= "midDetails">
+         
+        </tr>
+        <tr>
+            <th>Location Description</th>
+            <th></th> 
+            <th>Hours</th>
+        </tr>
+        <tr class= "bottomDetails">
+         
+        </tr>
+      </table>
+</div>
+<% } %>
+</table>
+<!--list-->
 
-    <script src="css/main.js"></script>
-  </body>
+</body>
+
+<script src="main.js"></script>
 </html>

@@ -52,6 +52,7 @@ app.get('/projectview', (req, res) => {
     res.render("test.ejs", {proj: proj});
 });
 
+// FIXME: Need to display the respective meters within each project
 // Display all projects from the database
 app.get('/projecttest', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
@@ -77,9 +78,10 @@ app.get('/projecttest', (req, res, next) => {
     }); 
 });
 
-// // Display the meter info from each project (Must display in the same project)
+// FIXME: How do I display the meters in the same page as the projects?
+// Display the meter info from each project (Must display in the same project)
 app.get('/metertest', (req, res, next) => {
-    let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
+    let sql = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date, m_Goal_Group, Goal, Units 
                 FROM Meters, MeterWO
                 WHERE m_Goal_Group IN (
                         SELECT GOAL_GROUP
@@ -103,25 +105,25 @@ app.get('/metertest', (req, res, next) => {
             // res.json({"Message":"Success",
             //         "Data":rows});
         }
-        
+        res.render("test", {rows: rows});
     }); 
 });
 
-// // Display the meter info from a specific goal group (Must display in the same project)
-// app.get('/metertest2', (req, res, next) => {
-//     let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
-//                 FROM Meters, MeterWO
-//                 WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'`;
+// Display the meter info from a specific goal group (Must display in the same project)
+app.get('/metertest2', (req, res, next) => {
+    let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
+                FROM Meters, MeterWO
+                WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'`;
 
-//     db.all(sql, [], (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
 
-//         res.json({"Message":"Success",
-//                     "Data":rows})
-//     }); 
-// });
+        res.json({"Message":"Success",
+                    "Data":rows})
+    }); 
+});
 
 // function calculateCompletion() {
 //     let sql = `SELECT Meters.m_Meter_Name,

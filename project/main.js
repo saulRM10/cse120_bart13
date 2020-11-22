@@ -55,7 +55,8 @@ app.get('/projectview', (req, res) => {
 // Display all projects from the database
 app.get('/projecttest', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
-                FROM Projects;`;
+                FROM Projects
+                GROUP BY p_PS_Project`;
 
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -64,9 +65,9 @@ app.get('/projecttest', (req, res, next) => {
         else
         {
             // Print out Project rows on the console
-            // rows.forEach((row) => {
-            //     console.log(row.p_PS_Project, row.p_Description, row.p_Status);
-            // });
+            rows.forEach((row) => {
+                console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+            });
 
             // res.json({"Message":"Success",
             //             "Data":rows});

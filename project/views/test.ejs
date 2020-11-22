@@ -7,14 +7,17 @@
 </head>
 <body>
     <nav>
-    <table>
+    <table style = "width:100%">
         <h1>Projects</h1>
-        
+
+        <th>Project ID</th>
+        <th>Description</th>
+        <th>Status</th>
 
         <% for (const proj of rows) { %>
-            <th><%= rows.p_PS_Project %></th>
-            <th><%= rows.p_Description %></th>
-            <th><%= rows.p_Status %></th>
+            <td><%= proj.p_PS_Project %></td>
+            <td><%= proj.p_Project_Desc %></td>
+            <td><%= proj.p_Status %></td>
         <% } %>
     </table>
     </nav>

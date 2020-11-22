@@ -2,6 +2,10 @@
 SELECT p_PS_Project, p_Project_Desc, p_Status
 FROM Projects, MeterWO;
 
+SELECT p_PS_Project, p_Project_Desc, p_Status
+FROM Projects
+GROUP BY p_PS_Project;
+
 -- Obtain meter readings for each project work order to display when clicked on
 -- Meter readings must be displayed within the same work order
 SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Reading, m_Reading_Date, Completion

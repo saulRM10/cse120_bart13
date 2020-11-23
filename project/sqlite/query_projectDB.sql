@@ -12,11 +12,21 @@ SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Readin
 FROM MeterWO, Meters, Projects
 WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project;
 
-SELECT MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+SELECT MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.Units
 FROM MeterWO, Projects
 WHERE
-    PS_Project = p_PS_Project;
+    PS_Project = p_PS_Project
+GROUP BY PS_Project;
 
+SELECT MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+FROM MeterWO INNER JOIN Projects on MeterWO.PS_Project = Projects.p_PS_Project
+GROUP BY p_PS_Project;
+
+SELECT m_Meter_Name, m_Goal_Group, m_Meter_Reading, m_Reading_Date
+FROM Meters
+GROUP BY m_Goal_Group
+ORDER BY m_Reading_Date DESC,
+        m_Meter_Name ASC;
 
 
 -- Need to display meters belonging to the same goal group

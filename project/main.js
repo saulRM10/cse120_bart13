@@ -30,27 +30,30 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
 // displayProject();
 // displayMeterReading();
 
-app.get('/projectview', (req, res) => {
-    let proj = [
-        {
-            PS_Project: '15CQ011',
-            Description: 'Platform Edge Struc Rehab',
-            Status: 'INPGR'
-        },
-        {
-            PS_Project: '15CQ016',
-            Description: 'Direct Fixation Pads',
-            Status: 'WAPPR'
-        },
-        {
-            PS_Project: '15TK000',
-            Description: 'M*E CAPITALIZED MAINTENANCE',
-            Status: 'INPRG'
-        }
-    ];
+// app.get('/testview', (req, res, next) => {
+//     let proj = [
+//         {
+//             PS_Project: '15CQ011',
+//             Description: 'Platform Edge Struc Rehab',
+//             Status: 'INPGR'
+//         },
+//         {
+//             PS_Project: '15CQ016',
+//             Description: 'Direct Fixation Pads',
+//             Status: 'WAPPR'
+//         },
+//         {
+//             PS_Project: '15TK000',
+//             Description: 'M*E CAPITALIZED MAINTENANCE',
+//             Status: 'INPRG'
+//         }
+//     ];
 
-    res.render("test.ejs", {proj: proj});
-});
+//     res.render("test2.ejs", {proj: proj});
+//     next();
+// }, (req, res) => {
+
+// });
 
 // FIXME: Need to display the respective meters within each project
 // Display all projects from the database
@@ -73,22 +76,23 @@ app.get('/projecttest', (req, res, next) => {
             // res.json({"Message":"Success",
             //             "Data":rows});
 
-            res.render("test", {rows: rows});
+            res.render("projecttest", {rows: rows});
         }
-    }); 
+    });
 });
+
 
 // FIXME: How do I display the meters in the same page as the projects?
 // Display the meter info from each project (Must display in the same project)
 app.get('/metertest', (req, res, next) => {
-    let sql = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date, m_Goal_Group, Goal, Units 
-                FROM Meters, MeterWO
-                WHERE m_Goal_Group IN (
-                        SELECT GOAL_GROUP
-                        FROM meterreading_tbl
-                        GROUP BY GOAL_GROUP
-                        HAVING COUNT(PS_PROJECT) > 1
-                    )`;
+    let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
+                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units,
+                m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                FROM Projects, MeterWO, Meters
+                WHERE
+                    PS_Project = p_PS_Project
+                    AND m_Goal_Group = Goal_Group
+                GROUP BY p_PS_Project`;
 
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -96,16 +100,17 @@ app.get('/metertest', (req, res, next) => {
         }
         else
         {
-
             // Print out Project rows on the console
             rows.forEach((row) => {
-                console.log(row.m_Meter_Name, row.m_Meter_Reading, row.m_Reading_Date, row.m_Goal_Group, row.Goal);
+                console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+                console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
             });
-            
+
             // res.json({"Message":"Success",
-            //         "Data":rows});
+            //             "Data":rows});
+
+            res.render("metertest", {rows: rows});
         }
-        res.render("test", {rows: rows});
     }); 
 });
 

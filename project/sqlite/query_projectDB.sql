@@ -12,6 +12,11 @@ SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Readin
 FROM MeterWO, Meters, Projects
 WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project;
 
+SELECT p_PS_Project, p_Project_Desc
+FROM Projects
+GROUP BY p_Project_Desc
+ORDER BY p_PS_Project ASC;
+
 SELECT MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.Units
 FROM MeterWO, Projects
 WHERE
@@ -42,7 +47,8 @@ WHERE m_Goal_Group IN (
 SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
 FROM Meters
 WHERE
-    m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2';
+    m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'
+ORDER BY m_Meter_Name;
 
 SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
 FROM Meters, MeterWO

@@ -54,9 +54,19 @@ SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meter
 FROM Meters, MeterWO
 WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2';
 
-INSERT INTO meterreading_tbl(COMPLETION)
-VALUES
-    (METER_READING / GOAL);
+-- INSERT INTO meterreading_tbl(COMPLETION)
+-- VALUES
+--     (METER_READING / GOAL);
+
+-- SELECT (CAST (METER_READING AS float) / CAST (GOAL AS float)) * 100.0
+-- FROM meterreading_tbl;
+
+UPDATE meterreading_tbl
+SET COMPLETION = ((CAST (METER_READING AS float)) / (CAST (GOAL AS float))) * 100.0
+WHERE COMPLETION = '';
+
+DELETE FROM meterreading_tbl
+WHERE COMPLETION IS NOT NULL;
 
 
 -- Display Activity

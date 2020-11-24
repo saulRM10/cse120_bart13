@@ -57,33 +57,35 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
 
 // FIXME: Need to display the respective meters within each project
 // Display all projects from the database
-app.get('/projecttest', (req, res, next) => {
-    let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
-                FROM Projects
-                GROUP BY p_PS_Project`;
+// app.get('/projecttest', (req, res, next) => {
+//     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
+//                 FROM Projects
+//                 GROUP BY p_PS_Project`;
 
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        else
-        {
-            // Print out Project rows on the console
-            rows.forEach((row) => {
-                console.log(row.p_PS_Project, row.p_Description, row.p_Status);
-            });
+//     db.all(sql, [], (err, rows) => {
+//         if (err) {
+//             throw err;
+//         }
+//         else
+//         {
+//             // Print out Project rows on the console
+//             rows.forEach((row) => {
+//                 console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+//             });
 
-            // res.json({"Message":"Success",
-            //             "Data":rows});
+//             // res.json({"Message":"Success",
+//             //             "Data":rows});
 
-            res.render("projecttest", {rows: rows});
-        }
-    });
-});
+//             res.render("projecttest", {rows: rows});
+//         }
+//     });
+// });
 
 
 // FIXME: How do I display the meters in the same page as the projects?
 // Display the meter info from each project (Must display in the same project)
+// Make sure meter readings are picked by the same Project ID and Goal Group
+// Suggestion: use a 2D for-loop
 app.get('/metertest', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
                 MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units,
@@ -104,6 +106,7 @@ app.get('/metertest', (req, res, next) => {
             rows.forEach((row) => {
                 console.log(row.p_PS_Project, row.p_Description, row.p_Status);
                 console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
+                console.log(row.m_Meter_Name, row.m_Meter_Reading, row.m_Reading_Date);
             });
 
             // res.json({"Message":"Success",

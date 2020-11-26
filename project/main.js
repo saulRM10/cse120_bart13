@@ -97,7 +97,8 @@ app.get('/metertest', (req, res, next) => {
                 GROUP BY p_PS_Project`;
 
     db.all(sql, [], (err, rows) => {
-        if (err) {
+        if (err)
+        {
             throw err;
         }
         else
@@ -124,12 +125,68 @@ app.get('/metertest2', (req, res, next) => {
                 WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'`;
 
     db.all(sql, [], (err, rows) => {
-        if (err) {
+        if (err)
+        {
             throw err;
         }
 
         res.json({"Message":"Success",
                     "Data":rows})
+    }); 
+});
+
+
+app.get('/metertest3', (req, res, next) => {
+    let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
+                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+                FROM Projects, MeterWO, Meters
+                WHERE
+                    PS_Project = p_PS_Project
+                GROUP BY p_PS_Project`;
+
+    db.all(sql, [], (err, rows) => {
+        if (err)
+        {
+            throw err;
+        }
+        else
+        {
+            let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                            FROM Meters, MeterWO
+                            WHERE
+                                m_Goal_Group = ?`;
+            rows.forEach((row) => {
+                console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+                console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
+                // db.each(sqlMeter, [`SELECT Goal_Group FROM MeterWO`], (err, row2) => {
+                //     if (err)
+                //     {
+                //         throw err;
+                //     }
+                //     else
+                //     {
+                //         console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
+                //     }
+                // });
+
+                db.all(sqlMeter, [row.Goal_Group], (err, rows2) => {
+                    if (err)
+                    {
+                        throw err;
+                    }
+                    else
+                    {
+                        rows2.forEach((row2) => {
+                            console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
+                        });
+                    }
+                    
+                });
+            });
+
+            res.json({"Message":"Success",
+                    "Data":rows})
+        }
     }); 
 });
 

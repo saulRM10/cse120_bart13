@@ -119,25 +119,7 @@ app.get('/metertest', (req, res, next) => {
     }); 
 });
 
-// Display the meter info from a specific goal group (Must display in the same project)
 app.get('/metertest2', (req, res, next) => {
-    let sql = `SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
-                FROM Meters, MeterWO
-                WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'`;
-
-    db.all(sql, [], (err, rows) => {
-        if (err)
-        {
-            throw err;
-        }
-
-        res.json({"Message":"Success",
-                    "Data":rows})
-    }); 
-});
-
-
-app.get('/metertest3', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
                 MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
                 FROM Projects, MeterWO, Meters
@@ -202,7 +184,8 @@ app.get('/metertest3', (req, res, next) => {
     }); 
 });
 
-app.get('/metertest4', (req, res, next) => {
+// FIXME: The meter readings need to be displayed under each respective project
+app.get('/metertest', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
                 MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
                 FROM Projects, MeterWO

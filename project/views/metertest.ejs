@@ -47,12 +47,14 @@
                 <th>Reading Date</th>
             </tr>
 
-            <tr>
-                <td><%= proj.m_Meter_Name %></td>
-                <td><%= proj.m_Meter_Reading %></td>
-                <td><%= proj.m_Reading_Date %></td>
-            </tr>
-
+            <% for (const model of rows2) { %>
+                <tr>
+                    
+                    <td><%= model.m_Meter_Name %></td>
+                    <td><%= model.m_Meter_Reading %></td>
+                    <td><%= model.m_Reading_Date %></td>
+                </tr>
+            <% } %>
             <tr></tr>
             <tr></tr>
             <tr></tr>

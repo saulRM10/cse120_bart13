@@ -8,6 +8,7 @@ References:
 const sqlite3 = require('sqlite3').verbose();
 const express = require("express");
 const bodyParser = require("body-parser");
+const async = require('async');
 
 const app = express();
 const path = require('path');
@@ -151,43 +152,120 @@ app.get('/metertest3', (req, res, next) => {
         }
         else
         {
-            let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                            FROM Meters, MeterWO
-                            WHERE
-                                m_Goal_Group = ?`;
+            
             rows.forEach((row) => {
                 console.log(row.p_PS_Project, row.p_Description, row.p_Status);
                 console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
-                // db.each(sqlMeter, [`SELECT Goal_Group FROM MeterWO`], (err, row2) => {
+
+                let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                            FROM Meters, MeterWO
+                            WHERE
+                                m_Goal_Group = ?
+                            GROUP BY Goal_Group`;
+                // let goalGroup = 'A1 DRAIN,A1 DRAIN 2';
+
+                // db.each(sqlMeter, [goalGroup], (err, rows2) => {
+                    
                 //     if (err)
                 //     {
                 //         throw err;
                 //     }
                 //     else
                 //     {
-                //         console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
+                //         rows2.forEach((row2) => {
+                //             console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
+                //         });
                 //     }
+                // });
+
+                // db.get(sqlMeter, [], (err, rows2) => {
+                //     if (err)
+                //     {
+                //         throw err;
+                //     }
+                //     else
+                //     {
+                //         rows2.forEach((row2) => {
+                //             console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
+                //         });
+                //     }
+                    
+                //     res.render("metertest", {rows: rows}, {rows2: rows2});
+                // });
+            });
+
+            // res.json({"Message":"Success",
+            //         "Data":rows});
+            // res.render("metertest", {rows: rows});
+
+        }
+    }); 
+});
+
+app.get('/metertest4', (req, res, next) => {
+    let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
+                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+                FROM Projects, MeterWO
+                WHERE
+                    PS_Project = p_PS_Project
+                GROUP BY p_PS_Project`;
+
+    db.all(sql, [], (err, rows) => {
+        if (err)
+        {
+            throw err;
+        }
+        else
+        {
+            
+            rows.forEach((row) => {
+                console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+                console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
+
+                let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                            FROM Meters, MeterWO
+                            WHERE
+                                m_Goal_Group = ?
+                            GROUP BY Goal_Group`;
+                // let goalGroup = 'A1 DRAIN,A1 DRAIN 2';
+                let goalGroup = row.m_Goal_Group;
+
+                // async.each(row, (err2, rows2) => {
+                //     // var goalGroup = item.m_Goal_Group;
+                //     db.all(sqlMeter, [goalGroup], (err2, rows2) => {
+                //         if (err2)
+                //         {
+                //             throw err2;
+                //         }
+                //         else
+                //         {
+                //             rows2.forEach((row2) => {
+                //                 console.log(row2.m_Meter_Name, row2.m_Meter_Row, row2.m_Reading_Date);
+                //             });
+                //         }
+
+                //     });
                 // });
 
                 db.all(sqlMeter, [row.Goal_Group], (err, rows2) => {
                     if (err)
                     {
-                        throw err;
+                            throw err;
                     }
                     else
                     {
-                        rows2.forEach((row2) => {
-                            console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
+                            rows2.forEach((row2) => {
+                                console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
                         });
                     }
-                    
                 });
-            });
 
-            res.json({"Message":"Success",
-                    "Data":rows})
+            // res.json({"Message":"Success",
+            //         "Data":rows});
+            // res.render("metertest", {rows: rows});
+            });
         }
-    }); 
+    });
 });
 
 // function calculateCompletion() {

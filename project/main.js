@@ -206,7 +206,7 @@ app.get('/metertest', (req, res, next) => {
                 console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
                 
                 // let goalGroup = row.m_Goal_Group;
-                var goalGroup = row.Goal_Group;
+                // var goalGroup = row.Goal_Group;
 
                 // let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
                 //             FROM Meters, MeterWO
@@ -218,9 +218,9 @@ app.get('/metertest', (req, res, next) => {
                             FROM Meters
                             INNER JOIN MeterWO on m_Goal_Group = Goal_Group
                             WHERE
-                                m_Goal_Group = '` + goalGroup + 
-                            `'
-                            ORDER BY m_Reading_Date DESC`;
+                                m_Goal_Group = '${row.Goal_Group}'
+                            ORDER BY m_Reading_Date DESC,
+                                    m_Meter_Reading DESC`;
 
                 // let goalGroup = 'A1 DRAIN,A1 DRAIN 2';
 
@@ -256,6 +256,91 @@ app.get('/metertest', (req, res, next) => {
                     }
                 });
             });
+        }
+    });
+});
+
+// const getMeterReadings = async (item) => {
+//     const goalGroup = item;
+//     let sql = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+//             FROM Meters
+//             INNER JOIN MeterWO on m_Goal_Group = Goal_Group
+//             WHERE
+//                 m_Goal_Group = ${goalGroup}
+//             ORDER BY m_Reading_Date DESC`;
+//     db.all(sql, [], (err, rows) =>
+//     {
+
+//     });
+    
+// };
+
+// app.get('/metertest4', (req, res, next) => {
+//     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
+//                 MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+//                 FROM Projects, MeterWO
+//                 WHERE
+//                     PS_Project = p_PS_Project
+//                 GROUP BY p_PS_Project`;
+
+//     db.all(sql, [], (err, rows) =>
+//     {
+//         if (err)
+//         {
+//             throw err;
+//         }
+//         else
+//         {
+//             let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+//                             FROM Meters
+//                             INNER JOIN MeterWO on m_Goal_Group = Goal_Group
+//                             WHERE
+//                                 m_Goal_Group = '` + row.Goal_Group + 
+//                             `'
+//                             ORDER BY m_Reading_Date DESC`;
+
+//             var readings = rows.map((row) => {
+//                 return {
+//                     meterName: row.m_Meter_Name,
+//                     meterReading: row.m_Meter_Reading,
+//                     meterDate: row.m_Reading_Date
+//                 }
+//             });
+//         }
+        
+//     });
+// });
+
+app.get('/metertest5', (req, res, next) => {
+    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
+                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+                FROM Projects, MeterWO
+                WHERE
+                    PS_Project = p_PS_Project
+                GROUP BY p_PS_Project`;
+
+    async.parallel([
+        function(callback) {
+            db.all(sqlProj, callback)
+        },
+        function(rows, callback) {
+            let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                FROM Meters
+                INNER JOIN MeterWO on m_Goal_Group = Goal_Group
+                WHERE
+                    m_Goal_Group = '${rows[0].Goal_Group}'
+                ORDER BY m_Reading_Date DESC,
+                        m_Meter_Reading DESC`;
+            db.all(sqlMeter, callback)
+        }
+    ], function(err, rows) {
+        if (err)
+        {
+            throw err;
+        }
+        else
+        {
+            res.render("metertest", {rows: rows[0], rows2: rows[1]});
         }
     });
 });

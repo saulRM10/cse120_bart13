@@ -86,3 +86,15 @@ ORDER BY t_PS_Project ASC,
         t_Meter_Name ASC,
         t_Meter_Reading ASC,
         t_Goal ASC;
+
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                            FROM Meters
+                            INNER JOIN MeterWO on m_Goal_Group = Goal_Group
+                            ORDER BY m_Reading_Date DESC;
+
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                            FROM Meters
+                            INNER JOIN MeterWO on m_Goal_Group = Goal_Group
+                            WHERE
+                                m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'
+                            ORDER BY m_Reading_Date DESC;

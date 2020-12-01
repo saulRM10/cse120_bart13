@@ -275,6 +275,60 @@ app.get('/metertest6', (req, res, next) => {
     });
 });
 
+app.get('/metertest7', (req, res, next) => {
+    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
+                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+                FROM Projects, MeterWO
+                WHERE
+                    PS_Project = p_PS_Project
+                GROUP BY p_PS_Project`;
+    var projects;
+    var meters;
+        
+    db.all(sqlProj, [], (err, rows) => {
+        if (err)
+        {
+            throw err;
+        }
+        else
+        {
+            projects = rows.map(returnProj);
+            console.log(projects);
+        }
+    });
+
+    var i;
+    var l = projects.length >>> projects;
+    for (i = 0; i < l; i++)
+    {
+        let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                        FROM Meters, MeterWO
+                        WHERE
+                            m_Goal_Group = '${i.Goal_Group}'
+                            ORDER BY m_Reading_Date DESC,
+                                    m_Meter_Reading DESC`;
+        db.all(sqlMeter, [], (err, rows2) => {
+            if (err)
+            {
+                throw err;
+            }
+            else
+            {
+                meters = rows2.map(returnMeter);
+                console.log(meters);
+            }
+        });
+    }
+});
+
+function returnProj(item) {
+    return item;
+}
+
+function returnMeter(item) {
+    return item;
+}
+
 // function calculateCompletion() {
 //     let sql = `SELECT Meters.m_Meter_Name,
 //                 Meters.m_Meter_Reading,

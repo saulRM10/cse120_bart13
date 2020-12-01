@@ -87,7 +87,7 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
 // Display the meter info from each project (Must display in the same project)
 // Make sure meter readings are picked by the same Project ID and Goal Group
 // Suggestion: use a 2D for-loop
-app.get('/metertest3', (req, res, next) => {
+app.get('/metertest', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
                 MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units,
                 m_Meter_Name, m_Meter_Reading, m_Reading_Date
@@ -211,7 +211,7 @@ app.get('/metertest', (req, res, next) => {
                                 m_Goal_Group = ?
                             GROUP BY Goal_Group`;
                 // let goalGroup = 'A1 DRAIN,A1 DRAIN 2';
-                // let goalGroup = row.m_Goal_Group;
+                let goalGroup = row.m_Goal_Group;
 
                 // async.each(row, (err2, rows2) => {
                 //     // var goalGroup = item.m_Goal_Group;
@@ -237,13 +237,15 @@ app.get('/metertest', (req, res, next) => {
                     }
                     else
                     {
-                        rows2.forEach((row2) => {
-                            console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
+                            rows2.forEach((row2) => {
+                                console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
                         });
-                        
-                        res.render("metertest", {rows: rows, rows2: rows2});
                     }
                 });
+
+            // res.json({"Message":"Success",
+            //         "Data":rows});
+            // res.render("metertest", {rows: rows});
             });
         }
     });

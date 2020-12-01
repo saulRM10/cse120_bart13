@@ -204,25 +204,14 @@ app.get('/metertest', (req, res, next) => {
             rows.forEach((row) => {
                 console.log(row.p_PS_Project, row.p_Description, row.p_Status);
                 console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
-                
-                // let goalGroup = row.m_Goal_Group;
-                // var goalGroup = row.Goal_Group;
-
-                // let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                //             FROM Meters, MeterWO
-                //             WHERE
-                //                 m_Goal_Group = ` + goalGroup + `\n` +
-                //             `ORDER BY m_Reading_Date DESC`;
 
                 let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                            FROM Meters
-                            INNER JOIN MeterWO on m_Goal_Group = Goal_Group
+                            FROM Meters, MeterWO
                             WHERE
-                                m_Goal_Group = '${row.Goal_Group}'
-                            ORDER BY m_Reading_Date DESC,
-                                    m_Meter_Reading DESC`;
-
+                                m_Goal_Group = ?
+                            GROUP BY Goal_Group`;
                 // let goalGroup = 'A1 DRAIN,A1 DRAIN 2';
+                // let goalGroup = row.m_Goal_Group;
 
                 // async.each(row, (err2, rows2) => {
                 //     // var goalGroup = item.m_Goal_Group;
@@ -241,7 +230,7 @@ app.get('/metertest', (req, res, next) => {
                 //     });
                 // });
 
-                db.all(sqlMeter, [], (err, rows2) => {
+                db.all(sqlMeter, [row.Goal_Group], (err, rows2) => {
                     if (err)
                     {
                         throw err;

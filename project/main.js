@@ -65,7 +65,7 @@ app.get('/projectview', (req, res, next) => {
 app.get('/displayProjWO', (req, res, next) => {
     const projInput = req.query.cont;
     const sql = `SELECT
-                    MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+                    WO_Num, Department, Goal_Group, Completion, Goal, units
                     FROM Projects, MeterWO
                     WHERE
                         PS_Project = p_PS_Project
@@ -106,63 +106,35 @@ app.get('/displayMeterReading', (req, res, next) => {
     });
 });
 
+app.get('/calccompletion', (req, res, next) => {
+    const goalGroup = req.query.cont;
 
-// function calculateCompletion() {
-//     let sql = `SELECT Meters.m_Meter_Name,
-//                 Meters.m_Meter_Reading,
-//                 MeterWO.Goal
-//                 FROM Meters, MeterWO
-//                 WHERE m_Goal_Group IN (SELECT GOAL_GROUP FROM meterreading_tbl GROUP BY GOAL_GROUP HAVING COUNT(PS_PROJECT) > 1)`;
+    let sql = `SELECT
+                m_Meter_Reading, Goal
+                FROM Meters, MeterWO
+                WHERE m_Goal_Group = ${goalGroup}`;
 
-//     var totalProgress = 0;
-//     var totalGoal = 0;
-//     var completeRate = 0;
+    var totalProgress = 0;
+    var totalGoal = 0;
+    var completeRate = 0;
 
-//     db.all(sql, [], (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        else
+        {
+            rows.forEach((row) => {
+                totalProgress += row.m_Meter_Reading;
+                totalGoal += row.Goal;
+            });
+            completeRate = totalProgress / totalGoal;
 
-//         rows.forEach((row) => {
-//             totalProgress += row.m_MeterReading;
-            
-//         });
-
-//     });
-
-//     return completeRate;
-// }
-
-// function displayProject() {
-//     let sql = `SELECT p_PS_Project, p_Description, p_Status
-//                 FROM Projects, MeterWO`;
-
-//     db.all(sql, [], (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
-    
-//         // Print out Project rows
-//         rows.forEach((row) => {
-//             console.log(row.p_PS_Project, row.p_Description, row.p_Status);
-//         });
-//     });
-// }
-
-// function displayMeterReading() {
-//     let sql = `SELECT WO_Num, Department, Goal_Group, Goal, Units, m_Meter_Name, m_Meter_Reading, m_Reading_Date, Completion
-//     FROM MeterWO, Meters, Projects
-//     WHERE m_Goal_Group = Goal_Group AND PS_Project = p_PS_Project`;
-//     db.all(sql, [], (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
-
-//         rows.forEach((row) => {
-//             console.log(row.WO_Num, row.Department, row.Goal_Group, row.Goal, row.Units, row.m_Meter_Name, row.m_Reading_Date, row.Completion);
-//         });
-//     });
-// }
+            res.send(completeRate);
+        }
+        
+    });
+});
 
 // app.get('/test', (req, res) => {
 //     res.render('views/test');

@@ -44,11 +44,45 @@ WHERE m_Goal_Group IN (
         HAVING COUNT(PS_PROJECT) > 1
     );
 
+
+
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+FROM Meters
+WHERE
+    m_Goal_Group = 'BHT C1 L,BHT C2 L'
+ORDER BY m_Meter_Name;
+
 SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
 FROM Meters
 WHERE
     m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2'
 ORDER BY m_Meter_Name;
+
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+FROM Meters
+WHERE
+    m_Goal_Group = 'DF PADS'
+ORDER BY m_Meter_Name;
+
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+FROM Meters
+WHERE
+    m_Goal_Group = 'C-CABLE A'
+ORDER BY m_Meter_Name;
+
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+FROM Meters
+WHERE
+    m_Goal_Group = 'DT INSTALL'
+ORDER BY m_Meter_Name;
+
+SELECT COUNT(DISTINCT m_Goal_Group)
+FROM Meters;
+
+SELECT DISTINCT m_Goal_Group
+FROM Meters;
+
+
 
 SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
 FROM Meters, MeterWO

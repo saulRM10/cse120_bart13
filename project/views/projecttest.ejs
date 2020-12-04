@@ -10,7 +10,7 @@
     <table style = "width:100%">
         <h1>Projects</h1>
 
-        <% for (const proj of rows) { %>
+        <% for (const project of proj) { %>
             <tr>
                 <th>Project ID</th>
                 <th>Description</th>
@@ -18,10 +18,28 @@
             </tr>
 
             <tr>
-                <td><%= proj.p_PS_Project %></td>
-                <td><%= proj.p_Project_Desc %></td>
-                <td><%= proj.p_Status %></td>
-            </tr>            
+                <td><%= project.p_PS_Project %></td>
+                <td><%= project.p_Project_Desc %></td>
+                <td><%= project.p_Status %></td>
+            </tr>
+            
+            <tr>
+                <th>Work Order #</th>
+                <th>Department</th>
+                <th>Goal Group</th>
+                <th>Completion</th>
+                <th>Goal</th>
+                <th># of Units</th>
+            </tr>
+
+            <tr>
+                <td><%= proj.WO_Num %></td>
+                <td><%= proj.Department %></td>
+                <td><%= proj.Goal_Group %></td>
+                <td><%= proj.Completion %></td>
+                <td><%= proj.Goal %></td>
+                <td><%= proj.Units %></td>
+            </tr>
         <% } %>
     </table>
     </nav>

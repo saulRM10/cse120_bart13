@@ -25,117 +25,76 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
         return console.error(err.message);
     }
     console.log('Connected to the Meter database.');
+
+    // db.exec('PRAGMA foreign_keys = ON;', (err) => {
+    //     if (err){
+    //         console.error("Foreign Key Enforcement is DISABLED.")
+    //     } else {
+    //         console.log("Foreign Key Enforcement is ENABLED.")
+    //     }
+    // });
 });
 
 // calculateComputation();
 // displayProject();
 // displayMeterReading();
 
-// FIXME: Need to display the respective meters within each project
-// Display all projects from the database
-// app.get('/projecttest', (req, res, next) => {
-//     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
-//                 FROM Projects
-//                 GROUP BY p_PS_Project`;
 
-//     db.all(sql, [], (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
-//         else
-//         {
-//             // Print out Project rows on the console
-//             rows.forEach((row) => {
-//                 console.log(row.p_PS_Project, row.p_Description, row.p_Status);
-//             });
+function search_project() { 
+    let input = document.getElementById('searchbar').value 
+    input=input.toLowerCase(); 
+    let x = document.getElementsByClassName('project'); 
+      
+    for (i = 0; i < x.length; i++) {  
+        if (!x[i].innerHTML.toLowerCase().includes(input)) { 
+            x[i].style.display="none"; 
+        } 
+        else { 
+            x[i].style.display="list-item";                  
+        } 
+    } 
+}
 
-//             // res.json({"Message":"Success",
-//             //             "Data":rows});
+function getProjects(sqlProj, callback) {
+    db.all(sqlProj, [], (err, rows2) => {
+        if (err)
+        {
+            throw err;
+        }
+        else
+        {
+            callback(rows2);
+        }
+    });
+}
 
-//             res.render("projecttest", {rows: rows});
-//         }
-//     });
-// });
+function getMeterReadings(goalGroup, callback) {
+    db.all(`SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date FROM Meters INNER JOIN MeterWO on m_Goal_Group = Goal_Group WHERE m_Goal_Group = '${goalGroup}' ORDER BY m_Reading_Date DESC, m_Meter_Reading DESC`, [goalGroup], (err, rows) => {
+        if (err)
+        {
+            throw err;
+        }
+        else
+        {
+            callback(rows);
+        }
+    });
+}
 
 
 // FIXME: How do I display the meters in the same page as the projects?
 // Display the meter info from each project (Must display in the same project)
 // Make sure meter readings are picked by the same Project ID and Goal Group
 // Suggestion: use a 2D for-loop
-
-// FIXME: The meter readings need to be displayed under each respective project
 app.get('/metertest', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
-                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
-                FROM Projects, MeterWO
+                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units,
+                m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                FROM Projects, MeterWO, Meters
                 WHERE
                     PS_Project = p_PS_Project
-                GROUP BY p_PS_Project`;
-    var proj = [];
-    var meter = [];
-
-    db.serialize(() => {
-        db.each(sql, (err, row) => {
-            if (err)
-            {
-                throw err;
-            }
-            else
-            {
-                console.log(row.p_PS_Project, row.p_Project_Desc, row.p_Status);
-                console.log(row.WO_Num, row.Department, row.Goal_Group, row.Completion, row.Goal, row.units);
-                
-                proj.push({PS_Proj: row.p_PS_Project, Proj_Desc: row.p_Project_Desc, Status: row.p_Status, WorkOrder: row.WO_Num, Dept: row.Department, GoalGroup: row.Goal_Group, Completion: row.Completion, Goal: row.Goal, Units: row.units});
-
-                let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                            FROM Meters
-                            INNER JOIN MeterWO on m_Goal_Group = Goal_Group
-                            WHERE
-                                m_Goal_Group = '${row.Goal_Group}'
-                            ORDER BY m_Reading_Date DESC,
-                                    m_Meter_Reading DESC`;
-                db.serialize(function() {
-                    db.each(sqlMeter, (err, row2) => {
-                        if (err)
-                        {
-                            throw err;
-                        }
-                        else
-                        {
-                            console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
-                            meter.push({Meter_Name: row2.m_Meter_Name, Meter_Reading: row2.m_Meter_Reading, Reading_Date: row2.m_Reading_Date});
-                        }
-                    }, function() {
-                        res.render("metertest", {rows: proj, rows2: meter});
-                    });
-                });
-            }
-        });
-    });
-});
-
-// const getMeterReadings = async (item) => {
-//     const goalGroup = item;
-//     let sql = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-//             FROM Meters
-//             INNER JOIN MeterWO on m_Goal_Group = Goal_Group
-//             WHERE
-//                 m_Goal_Group = ${goalGroup}
-//             ORDER BY m_Reading_Date DESC`;
-//     db.all(sql, [], (err, rows) =>
-//     {
-
-//     });
-    
-// };
-
-app.get('/metertest4', (req, res, next) => {
-    let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status,
-                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
-                FROM Projects, MeterWO
-                WHERE
-                    PS_Project = p_PS_Project
-                GROUP BY p_PS_Project`;
+                    AND m_Goal_Group = Goal_Group
+                GROUP BY p_PS_Project, m_Meter_Name`;
 
     db.all(sql, [], (err, rows) => {
         if (err)
@@ -144,216 +103,25 @@ app.get('/metertest4', (req, res, next) => {
         }
         else
         {
+            // Print out Project rows on the console
             rows.forEach((row) => {
-                console.log(row.p_PS_Project, row.p_Project_Desc, row.p_Status);
-                console.log(row.WO_Num, row.Department, row.Goal_Group, row.Completion, row.Goal, row.units);
-
-                let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                            FROM Meters
-                            INNER JOIN MeterWO on m_Goal_Group = Goal_Group
-                            WHERE
-                                m_Goal_Group = '${row.Goal_Group}'
-                            ORDER BY m_Reading_Date DESC,
-                                    m_Meter_Reading DESC`;
-            
-                db.all(sqlMeter, [], (err, rows2) => {
-                    if (err)
-                    {
-                        throw err;
-                    }
-                    else
-                    {
-                        rows2.forEach((row2) => {
-                            console.log(row2.m_Meter_Name, row2.m_Meter_Reading, row2.m_Reading_Date);
-                        });
-
-                        res.render("metertest", {rows: rows, rows2: rows2});
-                    }
-                });
+                console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+                console.log(row.WO_Num, row.WO_Department, row.Goal_Group, row.Completion, row.Goal, row.Units);
+                console.log(row.m_Meter_Name, row.m_Meter_Reading, row.m_Reading_Date);
             });
+
+            // res.json({"Message":"Success",
+            //             "Data":rows});
+
+            res.render("test", {rows: rows});
         }
-    });
+    }); 
 });
 
 
-// Only proper working app.get function (almost)
-app.get('/metertest5', (req, res, next) => {
-    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
-                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
-                FROM Projects, MeterWO
-                WHERE
-                    PS_Project = p_PS_Project
-                GROUP BY p_PS_Project`;
-
-    async.series([
-        function(callback) {
-            db.all(sqlProj, callback)
-        },
-        function(callback) {
-            let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                FROM Meters
-                INNER JOIN MeterWO on m_Goal_Group = Goal_Group
-                WHERE
-                    m_Goal_Group = Goal_Group
-                ORDER BY m_Reading_Date DESC,
-                        m_Meter_Reading DESC`;
-            db.all(sqlMeter, callback)
-        }
-    ], function(err, rows) {
-        if (err)
-        {
-            throw err;
-        }
-        else
-        {
-            res.render("metertest", {rows: rows[0], rows2: rows[1]});
-        }
-    });
-});
-
-function getProjects(sqlProj, callback) {
-    db.all(sqlProj, [], (err, rows) => {
-        if (err)
-        {
-            throw err;
-        }
-        else
-        {
-            callback(rows);
-        }
-    });
-}
-
-function getMeterReadings(sqlMeter, goalGroup, callback) {
-    db.all(sqlMeter, [goalGroup], (err, rows) => {
-        if (err)
-        {
-            throw err;
-        }
-        else
-        {
-            callback(rows);
-        }
-    });
-}
-
-app.get('/metertest6', (req, res, next) => {
-    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
-                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
-                FROM Projects, MeterWO
-                WHERE
-                    PS_Project = p_PS_Project
-                GROUP BY p_PS_Project`;
-
-    getProjects(sqlProj, (err, rows) => {
-        if (err)
-        {
-            throw err;
-        }
-        else
-        {
-            rows.forEach((row) => {
-                let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                                FROM Meters
-                                INNER JOIN MeterWO on m_Goal_Group = Goal_Group
-                                WHERE
-                                    m_Goal_Group = ?
-                                ORDER BY m_Reading_Date DESC,
-                                        m_Meter_Reading DESC`;
-                getMeterReadings(sqlMeter, row.Goal_Group, (err, rows2) => {
-                    if (err)
-                    {
-                        throw err;
-                    }
-                    else
-                    {
-                        res.render("metertest", {rows: rows, rows2: rows2});
-                    }
-                });
-            });
-        }
-    });
-});
-
-app.get('/metertest7', (req, res, next) => {
-    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
-                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
-                FROM Projects, MeterWO
-                WHERE
-                    PS_Project = p_PS_Project
-                GROUP BY p_PS_Project`;
-    var projects;
-    var meters;
-        
-    db.all(sqlProj, [], (err, rows) => {
-        if (err)
-        {
-            throw err;
-        }
-        else
-        {
-            projects = rows.map(returnProj);
-            console.log(projects);
-        }
-    });
-
-    var i;
-    var l = projects.length >>> projects;
-    for (i = 0; i < l; i++)
-    {
-        let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                        FROM Meters, MeterWO
-                        WHERE
-                            m_Goal_Group = '${i.Goal_Group}'
-                            ORDER BY m_Reading_Date DESC,
-                                    m_Meter_Reading DESC`;
-        db.all(sqlMeter, [], (err, rows2) => {
-            if (err)
-            {
-                throw err;
-            }
-            else
-            {
-                meters = rows2.map(returnMeter);
-                console.log(meters);
-            }
-        });
-    }
-});
-
-function returnProj(item) {
-    return item;
-}
-
-function returnMeter(item) {
-    return item;
-}
-
-// Testing returnProj with projects map
-app.get('/metertest8', (req, res, next) => {
-    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
-                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
-                FROM Projects, MeterWO
-                WHERE
-                    PS_Project = p_PS_Project
-                GROUP BY p_PS_Project`;
-    db.all(sqlProj, [], (err, rows) => {
-        if (err)
-        {
-            throw err;
-        }
-        else
-        {
-            const projects = rows.map(returnProj);
-            console.log(projects);
-
-            
-            res.render("projecttest", {proj: projects});
-        }
-    });
-});
-
+// FIXME!!!!!! Trying to use this
 app.get('/metertest9', (req, res, next) => {
+    // Get project and WO info; displaying projects individually
     let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
                 MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
                 FROM Projects, MeterWO
@@ -361,8 +129,9 @@ app.get('/metertest9', (req, res, next) => {
                     PS_Project = p_PS_Project
                 GROUP BY p_PS_Project`;
 
-    var projects;
-    var meters;
+    var projects = [];
+    var meters = [];
+    // var meterReading = [];
         
     db.all(sqlProj, [], (err, rows) => {
         if (err)
@@ -374,9 +143,7 @@ app.get('/metertest9', (req, res, next) => {
             projects = rows.map(returnProj);
             console.log(projects);
 
-            // FIXME: res.render cannot be called in the forEach loops; it must stay in the db.all() methods
-            //        At the same time, the meter readings need to be printed by goal group, which requires an
-            //        iteration...
+            // For-loop needed to get appropriate Goal Group for each project
             projects.forEach((row) => {
                 let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
                                 FROM Meters, MeterWO
@@ -392,57 +159,117 @@ app.get('/metertest9', (req, res, next) => {
                     }
                     else
                     {
+                        // console.log(row.Goal_Group);
                         meters = rows2.map(returnMeter);
-                        console.log(meters);
-                        
+                        // console.log(meters);
                     }
                 });
+                // meterReading.push([meters]);
+                // console.log(meterReading);
+                // meters = [];
+
+                // ERROR: results in "TypeError: req.next is not a function" and crashes
+                // res.render("metertest", {proj: projects, mtr: meters});
+
             });
-            res.render("metertest", {rows: projects, rows2: meters});
         }
+
+        console.log(meters);
+
+        // meterReading = projects.concat([meters]);
+
+        // FIXME: Currently not rendering meters
+        // res.render("metertest", {proj: projects, mtr: meters});
     });
+
+    // ERROR: Won't render projects due to the method being out of scope
+    // res.render("metertest", {proj: projects, mtr: meters});
 });
 
-app.get('/metertest10', (req, res, next) => {
-    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
-                MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
-                FROM Projects, MeterWO
-                WHERE
-                    PS_Project = p_PS_Project
-                GROUP BY p_PS_Project`;
+function getReading(goalGroup) {
+    var meterRead = [];
 
-    var projects;
-    var meters;
-        
-    db.all(sqlProj, [], (err, rows) => {
+    let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                    FROM Meters, MeterWO
+                    WHERE
+                        m_Goal_Group = '${goalGroup}'
+                    ORDER BY m_Reading_Date DESC,
+                            m_Meter_Reading DESC`;
+
+    db.all(sqlMeter, [], (err, rows) => {
         if (err)
         {
             throw err;
         }
         else
         {
-            projects = rows.map(returnProj);
+            meterRead = rows.map((item) => {
+                return item;
+            });
+            // console.log(meterRead);
+        }
+    });
+
+    return meterRead;
+}
+
+// async function showReadings(projects, sql)
+// {
+//     let reading = await db.all(sql);
+
+//     rows.forEach(async function (item, index, reading) {
+//         let q = reading[index];
+        
+//         let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+//                         FROM Meters, MeterWO
+//                         WHERE
+//                             m_Goal_Group = '${result[index].}'
+//                         ORDER BY m_Reading_Date DESC,
+//                                 m_Meter_Reading DESC`
+//         let 
+//     });
+// }
+
+app.get('/metertest12',(req, res, next) => {
+    let sqlProj = `SELECT p_PS_Project, p_Project_Desc, p_Status,
+                    MeterWO.WO_Num, MeterWO.Department, MeterWO.Goal_Group, MeterWO.Completion, MeterWO.Goal, MeterWO.units
+                    FROM Projects, MeterWO, Meters
+                    WHERE
+                        PS_Project = p_PS_Project
+                        AND m_Goal_Group = Goal_Group
+                    GROUP BY p_PS_Project`;
+
+    var projects = [];
+    var meters = [];
+        
+    db.each(sqlProj, [], (err, row) => {
+        if (err)
+        {
+            throw err;
+        }
+        else
+        {
+            projects.push(row);
             console.log(projects);
-
-            // FIXME: res.render cannot be called in the forEach loops; it must stay in the db.all() methods
-            //        At the same time, the meter readings need to be printed by goal group, which requires an
-            //        iteration...
+            
             let sqlMeter = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
-                            FROM Meters, MeterWO
-                            ORDER BY m_Reading_Date DESC,
-                                    m_Meter_Reading DESC`;
-
-            db.all(sqlMeter, [], (err, rows2) => {
+                    FROM Meters, MeterWO
+                    WHERE
+                        m_Goal_Group = '${row.Goal_Group}'
+                    ORDER BY m_Reading_Date DESC,
+                            m_Meter_Reading DESC`;
+            
+            db.all(sqlMeter, [], (err, rows) => {
                 if (err)
                 {
                     throw err;
                 }
                 else
                 {
-                    meters = rows2.map(returnMeter);
+                    meters = rows.map((item) => {
+                        return item;
+                    });
                     console.log(meters);
-
-                    res.render("metertest", {rows: projects, rows2: meters});
                 }
             });
         }
@@ -519,5 +346,5 @@ app.get('/metertest10', (req, res, next) => {
 
 // Test server
 app.listen(8000, function() {
-    console.log("Server started on port 8000");
+    console.log("Server started on port 3000");
   });

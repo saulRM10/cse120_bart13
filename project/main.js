@@ -1,9 +1,3 @@
-/*
-References:
-    https://www.sqlitetutorial.net/sqlite-nodejs/query/
-    https://developerhowto.com/2018/12/29/build-a-rest-api-with-node-js-and-express-js/
-    https://ncoughlin.com/posts/express-ejs-render-page-dynamic-content/
-*/
 
 const sqlite3 = require('sqlite3').verbose();
 const express = require("express");
@@ -27,7 +21,10 @@ let db = new sqlite3.Database('./data/meterDB.sqlite' ,sqlite3.OPEN_READWRITE,(e
     if (err) {
         return console.error(err.message);
     }
-    console.log('Connected to the Meter database.');
+    else
+    {
+        console.log('Connected to the Meter database.');
+    }
 });
 
 // Use assets in public folder
@@ -38,7 +35,7 @@ app.use(express.static("public"));
 // displayMeterReading();
 
 // Display projects
-app.get('/projectview', (req, res, next) => {
+app.get('/', (req, res, next) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
                 FROM Projects
                 GROUP BY p_PS_Project`;
@@ -51,12 +48,11 @@ app.get('/projectview', (req, res, next) => {
         else
         {
             // Print out Project rows on the console
-            rows.forEach((row) => {
-                console.log(row.p_PS_Project, row.p_Description, row.p_Status);
-            });
+            // rows.forEach((row) => {
+            //     console.log(row.p_PS_Project, row.p_Description, row.p_Status);
+            // });
 
-            // Does the ejs here need to be renamed?
-            res.render("dropDown", {model: rows});
+            res.render("project", {model: rows});
         }
     }); 
 });
@@ -108,7 +104,6 @@ app.get('/displayMeterReading', (req, res, next) => {
 
 app.get('/calccompletion', (req, res, next) => {
     const goalGroup = req.query.cont;
-
     let sql = `SELECT
                 m_Meter_Reading, Goal
                 FROM Meters, MeterWO
@@ -132,7 +127,6 @@ app.get('/calccompletion', (req, res, next) => {
 
             res.send(completeRate);
         }
-        
     });
 });
 

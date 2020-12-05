@@ -35,7 +35,7 @@ app.use(express.static("public"));
 // displayMeterReading();
 
 // Display projects
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     let sql = `SELECT p_PS_Project, p_Project_Desc, p_Status
                 FROM Projects
                 GROUP BY p_PS_Project`;
@@ -58,10 +58,10 @@ app.get('/', (req, res, next) => {
 });
 
 // Display respective work orders for each project
-app.get('/displayProjWO', (req, res, next) => {
+app.get('/displayProjWO', (req, res) => {
     const projInput = req.query.cont;
     const sql = `SELECT
-                    WO_Num, Department, Goal_Group, Completion, Goal, units
+                    WO_Num, Department, Goal_Group, Completion, Goal, Units
                     FROM Projects, MeterWO
                     WHERE
                         PS_Project = p_PS_Project
@@ -80,7 +80,7 @@ app.get('/displayProjWO', (req, res, next) => {
 });
 
 // Display meter readings under the respective goal group
-app.get('/displayMeterReading', (req, res, next) => {
+app.get('/displayMeterReading', (req, res) => {
     const goalGroup = req.query.cont;
     const sql = `SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
                 FROM Meters, MeterWO
@@ -102,7 +102,7 @@ app.get('/displayMeterReading', (req, res, next) => {
     });
 });
 
-app.get('/calccompletion', (req, res, next) => {
+app.get('/calccompletion', (req, res) => {
     const goalGroup = req.query.cont;
     let sql = `SELECT
                 m_Meter_Reading, Goal
@@ -142,6 +142,6 @@ app.get('/calccompletion', (req, res, next) => {
 // });
 
 // Test server
-app.listen(3000, function() {
-    console.log("Server started on port 3000")
+app.listen(8000, function() {
+    console.log("Server started on port 8000")
 });

@@ -1,27 +1,3 @@
-/*
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-
-var curr=this.getElementsByClassName("")[0];
-var cont= curr.textContent;
-
-var curr=this.getElementsByClassName("proj")[0];
-    var cont= curr.textContent;
-    var temp1=this.getElementsByClassName("desc")[0];
-    var temp2=this.getElementsByClassName("status")[0];
-    var proj= temp1.textContent;
-    var status= temp2.textContent;
-
-    $.get("/displayWOinfo", {cont}, function(response){
-
-    });
-});
-}
-*/
 
 var coll = document.getElementsByClassName("collapsible");
 var i;
@@ -98,22 +74,26 @@ for (i = 0; i < coll.length; i++) {
       var childData7 = document.createElement("td");
       childData7.innerHTML = meterName;
 
-      midRow.prepend(childData6);
-      midRow.prepend(childData5);
-      midRow.prepend(childData4);
+      midRow.prepend(childData9);
+      midRow.prepend(childData8);
+      midRow.prepend(childData7);
     });
+
+    // var child = document.createElement("div");
+    // child.innerHTML = "<div>Hello World!</div>";
+    // content.prepend(child);
 
     if (content.style.display === "block") {
       content.style.display = "none";
       topRow.querySelectorAll('*').forEach(n => n.remove());
       midRow.querySelectorAll('*').forEach(n => n.remove());
-      bottRow.querySelectorAll('*').forEach(n => n.remove());
+      // bottRow.querySelectorAll('*').forEach(n => n.remove());
     }
     else {
       content.style.display = "block";
       topRow.querySelectorAll('*').forEach(n => n.remove());
       midRow.querySelectorAll('*').forEach(n => n.remove());
-      bottRow.querySelectorAll('*').forEach(n => n.remove());
+      // bottRow.querySelectorAll('*').forEach(n => n.remove());
       //var currSelect= document.getElementsByClassName("active");
     }
   });
@@ -130,3 +110,4 @@ function openNav() {
 function closeNav(){
   document.getElementById("mySidenav").style.width="0";
 }
+

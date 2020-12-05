@@ -9,10 +9,10 @@
 <body>
 
     <!-- work order / activity tab switch  START -->
-   <form>
-    <input class="PJ" type="button" onclick="#" value="Project" />
+   <!-- <form> -->
+    <!-- <input class="PJ" type="button" onclick="#" value="Project" /> -->
     <!-- <input class=" AA" type="button" onclick="#" value="Activity" /> -->
-  </form>
+  <!-- </form> -->
    <!-- work order / activity tab switch END  -->
 
 
@@ -27,6 +27,7 @@
 
  
 </div>
+
    <!-- Use any element to open the sidenav -->
    <span onclick="openNav()">open</span>
      <!-- left main menu END -->
@@ -36,7 +37,7 @@
         <th style="color: #0587E9; " > Project ID </th>
         <th style="color:  #0587E9; "> Description </th>
         <th style="color:  #0587E9; "> Status </th>
-
+      
     </table>
     <table style="width:100%">
         <% for (const item of model) { %>  
@@ -44,7 +45,7 @@
         <button type="button" class="collapsible">
             <table>
                 <th class="ps_proj"  style="color: aliceblue;"> <%= item.p_PS_Project %> </th>
-                <th class="desc"  style="color: aliceblue;"> <%= item.p_Description %> </th>
+                <th class="desc"  style="color: aliceblue;"> <%= item.p_Project_Desc %> </th>
                 <th class="stat"  style="color: aliceblue;"><%= item.p_Status %> </th>
             </table>
         </button> 
@@ -59,8 +60,8 @@
           <th>Goal</th> 
           <th>Units</th>
         </tr>
-        <tr class= "topDetails"> 
-         
+        <tr class= "topDetails"></tr>
+        
         </tr>
         <tr>
           <th>Meter Name</th>

@@ -1,3 +1,11 @@
+CREATE TABLE Projects (
+    p_PS_Project varchar(7),
+    p_Project_Desc char(255),
+    p_Activity varchar(255),
+    p_Activity_Desc varchar(255),
+    p_Status char(10)
+);
+
 CREATE TABLE MeterWO (
     PS_Project varchar(7),
     WO_Num decimal(9,0),
@@ -11,7 +19,10 @@ CREATE TABLE MeterWO (
     Units char(20),
     Reported_Date date,
     Description char(255),
-    Status char(10)
+    Status char(10),
+
+    FOREIGN KEY (PS_Project)
+        REFERENCES Projects (p_PS_Project)
 );
 
 CREATE TABLE Meters (
@@ -20,15 +31,10 @@ CREATE TABLE Meters (
     m_Meter_Reading integer,
     m_Reading_Date date,
     m_Meter_Desc varchar(255),
-    m_Completion float(3,2)
-);
+    m_Completion float(3,2),
 
-CREATE TABLE Projects (
-    p_PS_Project varchar(7),
-    p_Project_Desc char(255),
-    p_Activity varchar(255),
-    p_Activity_Desc varchar(255),
-    p_Status char(10)
+    FOREIGN KEY (m_Goal_Group)
+        REFERENCES MeterWO (Goal_Group)
 );
 
 CREATE TABLE Activity (
@@ -36,6 +42,14 @@ CREATE TABLE Activity (
     a_Update varchar(255),
     a_Date date
 );
+
+INSERT INTO Projects
+SELECT PS_PROJECT,
+    PS_PROJECT_DESC,
+    PS_ACTIVITY,
+    PS_ACTIVITY_DESC,
+    STATUS
+FROM meterreading_tbl;
 
 -- Populate the tables in the database
 INSERT INTO MeterWO
@@ -63,26 +77,19 @@ SELECT METER_NAME,
     COMPLETION
 FROM meterreading_tbl;
 
-INSERT INTO Projects
-SELECT PS_PROJECT,
-    PS_PROJECT_DESC,
-    PS_ACTIVITY,
-    PS_ACTIVITY_DESC,
-    STATUS
-FROM meterreading_tbl;
-
 INSERT INTO Activity (a_PS_PROJECT, a_Update, a_Date)
 VALUES (
 
 );
 
+DELETE FROM Projects;
 DELETE FROM MeterWO;
 DELETE FROM Meters;
-DELETE FROM Projects;
+DELETE FROM meterreading_tbl;
 
+DROP TABLE IF EXISTS Projects;
 DROP TABLE IF EXISTS MeterWO;
 DROP TABLE IF EXISTS Meters;
-DROP TABLE IF EXISTS Projects;
 
         
         

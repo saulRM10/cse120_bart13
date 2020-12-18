@@ -21,16 +21,16 @@ let db = new sqlite3.Database('./data/workorderDB.sqlite',sqlite3.OPEN_READWRITE
 
 
 // use public folder with css and images 
-app.use(express.static("public"))
+app.use(express.static("public"));
 
 app.get("/", function(req, res){
     
-    const sql = "SELECT wonum,work_type,department, asset_type,s_reportdate,l_location,s_status FROM workorders,status,location WHERE wonum=s_wonum AND wonum=l_wonum ORDER BY s_FORMATreportdate"
+    const sql = "SELECT wonum,work_type,department, asset_type,s_reportdate,l_location,s_status FROM workorders,status,location WHERE wonum=s_wonum AND wonum=l_wonum ORDER BY s_reportdate"
     db.all(sql, [], (err, rows) => {
       if (err) {
       return console.error(err.message);
       }
-      res.render("dropDown", {model: rows});//list under views and pass mode=variable
+      res.render("maintenance", {model: rows});//list under views and pass mode=variable
     });
 });
 

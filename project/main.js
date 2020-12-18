@@ -142,6 +142,6 @@ app.get('/calccompletion', (req, res) => {
 // });
 
 // Test server
-app.listen(8000, function() {
-    console.log("Server started on port 8000")
+app.listen(3000, function() {
+    console.log("Server started on port 3000")
 });

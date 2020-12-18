@@ -29,7 +29,6 @@ GROUP BY p_PS_Project;
 
 SELECT m_Meter_Name, m_Goal_Group, m_Meter_Reading, m_Reading_Date
 FROM Meters
-GROUP BY m_Goal_Group
 ORDER BY m_Reading_Date DESC,
         m_Meter_Name ASC;
 
@@ -43,8 +42,6 @@ WHERE m_Goal_Group IN (
         GROUP BY GOAL_GROUP
         HAVING COUNT(PS_PROJECT) > 1
     );
-
-
 
 SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
 FROM Meters
@@ -82,12 +79,6 @@ FROM Meters;
 SELECT DISTINCT m_Goal_Group
 FROM Meters;
 
-
-
-SELECT Meters.m_Meter_Name, Meters.m_Meter_Reading, Meters.m_Reading_Date, Meters.m_Goal_Group, MeterWO.Goal 
-FROM Meters, MeterWO
-WHERE m_Goal_Group = 'A1 DRAIN,A1 DRAIN 2';
-
 -- INSERT INTO meterreading_tbl(COMPLETION)
 -- VALUES
 --     (METER_READING / GOAL);
@@ -120,3 +111,9 @@ ORDER BY t_PS_Project ASC,
         t_Meter_Name ASC,
         t_Meter_Reading ASC,
         t_Goal ASC;
+
+SELECT m_Meter_Name, m_Meter_Reading, m_Reading_Date
+                            FROM Meters, MeterWO
+                            WHERE
+                                m_Goal_Group = 'BHT INSU'
+                            GROUP BY Goal_Group;

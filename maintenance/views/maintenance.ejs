@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Orders</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- work order / activity tab switch  START -->
+   <form>
+    <input class="WO" type="button" onclick="#" value="Work Order" />
+    <input class=" AA" type="button" onclick="#" value="Activity" />
+  </form>
+   <!-- work order / activity tab switch END  -->
+
+
+    <!-- left main menu START-->
+<div class="sidenav" id="mySidenav">
+
+    <a href="javasrcipt:void(0)" class="closebtn" onclick="closeNav()"> &times;</a>
+
+    <a href="#"> PROJECTS</a>
+    
+    <a href="#"> MAINTENANCE </a>
+
+ 
+</div>
+   <!-- Use any element to open the sidenav -->
+   <span onclick="openNav()">open</span>
+     <!-- left main menu END -->
+
+      <!--Main tabs / header names  -->
+      <table style="width: 100%; padding-bottom: 20px;">
+        <th style="color: #0587E9; " > Work Order # </th>
+        <th style="color:  #0587E9; "> Work Type </th>
+        <th style="color:  #0587E9; "> Department </th>
+        <th style="color:  #0587E9; ">Asset Type </th>
+        <th style="color: #0587E9; "> Reported Date </th>
+        <th style="color:  #0587E9; ">Location</th>
+        <th style="color:  #0587E9; "> Status </th>
+
+    </table>
+    <table style="width:100%">
+        <% for (const item of model) { %>  
+
+        <button type="button" class="collapsible">
+            <table>
+                <th class="wo"  style="color: aliceblue;"> <%= item.wonum %> </th>
+                <th class="wt"  style="color: aliceblue;"> <%= item.work_type %> </th>
+                <th class="d"  style="color: aliceblue;"><%= item.department %> </th>
+                <th class="at"  style="color: aliceblue;"> <%= item.asset_type %></th>
+                <th  style="color: aliceblue;"> <%= item.s_reportdate %>  </th>
+                <th  style="color: aliceblue;"> <%= item.l_location %> </th>
+                <th  style="color: aliceblue;"> <%= item.s_status %> </th>
+            </table>
+        </button> 
+    
+<div class="content">
+    <table  >
+        <tr >
+          <th>Description</th>
+          <th>Start Date</th> 
+          <th>Finish Date</th>
+        </tr>
+        <tr class= "topDetails"> 
+         
+        </tr>
+        <tr>
+          <th>Problem Description</th>
+          <th></th> 
+          <th>Department</th>
+        </tr>
+        <tr class= "midDetails">
+         
+        </tr>
+        <tr>
+            <th>Location Description</th>
+            <th></th> 
+            <th>Hours</th>
+        </tr>
+        <tr class= "bottomDetails">
+         
+        </tr>
+      </table>
+</div>
+<% } %>
+</table>
+<!--list-->
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="main.js"></script>
+</html>
